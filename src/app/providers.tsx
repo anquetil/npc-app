@@ -8,12 +8,19 @@ import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
-import { base } from 'viem/chains'
+import { base, baseGoerli } from 'viem/chains'
+
+const testNet = process.env.NEXT_PUBLIC_TESTNET == 'TRUE'
 
 const { chains, publicClient } = configureChains(
-   [base],
+   [testNet ? baseGoerli : base],
    [
-      alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID_BASE ?? '' }),
+      alchemyProvider({
+         apiKey:
+            (testNet
+               ? process.env.NEXT_PUBLIC_ALCHEMY_KEY_BASE_GOERLI
+               : process.env.NEXT_PUBLIC_ALCHEMY_ID_BASE) ?? '',
+      }),
       publicProvider(),
    ]
 )

@@ -1,5 +1,5 @@
 export type PartType = {
-   svg: string,
-   name: string,
+   svg: string
+   name: string
    filename: string
 }

@@ -1,11 +1,14 @@
-import AllParts from "@/components/AllParts";
-import Cart from "@/components/Cart";
+import AllParts from '@/components/AllParts'
+import Cart from '@/components/Cart'
+import HeroComponent from '@/components/HeroComponent'
+import { categories } from '../utils/svg'
 
 export default function Home() {
    return (
-      <main className='flex min-h-screen flex-col items-start p-12'>
+      <main className='flex flex-col items-start p-12'>
          <Cart />
-         <AllParts/>
+         <HeroComponent />
+         <AllParts categories={categories} />
       </main>
    )
 }
