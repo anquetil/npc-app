@@ -5,6 +5,7 @@ interface CartState {
    items: Map<string, number>
    add: (item: string) => void
    remove: (item: string) => void
+   clear: () => void
 }
 
 export const useCartStore = create<CartState>()((set) => ({
@@ -19,4 +20,5 @@ export const useCartStore = create<CartState>()((set) => ({
          // can only be 0 or 1
          return { items: state.items.set(item, 1) }
       }),
+   clear: () => set(() => {return {items: new Map()}})
 }))

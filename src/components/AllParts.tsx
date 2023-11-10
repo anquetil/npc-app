@@ -4,33 +4,25 @@ import { PartType } from '@/types/PartType'
 import PartForPurchase from './PartForPurchase'
 import { useState } from 'react'
 import { useCartStore } from '@/stores/useCartStore'
+import { categories } from '@/utils/svg'
 
-export default function AllParts({
-   categories,
-}: {
-   categories: {
-      name: string
-      traits: PartType[]
-   }[]
-}) {
+export default function AllParts() {
    const [tab, setTab] = useState<string>('Bodies')
    const activeCategory = categories.filter((c) => c.name == tab)[0]
    const addToCart = useCartStore((state) => state.add)
    const { items } = useCartStore()
 
    const addAllCategory = () => {
-      activeCategory.traits.map(
-         (t) => {
-            const item = items.get(t.name);
-            console.log(item)
-            if(item == undefined || item == 0)addToCart(t.name)
-         }
-      )
+      activeCategory.traits.map((t) => {
+         const item = items.get(t.name)
+         console.log(item)
+         if (item == undefined || item == 0) addToCart(t.name)
+      })
    }
 
    return (
-      <div className='flex flex-col'>
-         <div className='flex flex-row gap-x-4 sm:gap-x-8 mb-4 border-b-2 border-gray-100 text-sm sm:text-base'>
+      <div className='flex flex-col w-full'>
+         <div className='flex flex-row gap-x-4 sm:gap-x-8 mb-4 border-b-2 border-gray-100 text-sm sm:text-base w-full px-2'>
             {categories.map((c, i) => (
                <div
                   key={c.name} // need a distinct id between tab

@@ -19,11 +19,12 @@ export default function PartForPurchase({
    const addToCart = useCartStore((state) => state.add)
    const removeFromCart = useCartStore((state) => state.remove)
    const inCart = cartItem != undefined && cartItem > 0
-   const listenToAdAll = useCartStore.subscribe((newState) => {
+   const listenToAddAll = useCartStore.subscribe((newState) => {
       setSelected(newState.items.get(name) == 1)
    })
    const [selected, setSelected] = useState<boolean>(inCart)
-
+   const countLeft = name.length * 5 + name.charCodeAt(0)
+   const runningLow = countLeft < 100
    const trimming = new Map([
       ['Bodies', '-mt-[30%]'],
       ['Heads', '-mb-3'],
@@ -37,7 +38,7 @@ export default function PartForPurchase({
             selected
                ? 'bg-green-100 hover:bg-green-50 border-green-300'
                : 'bg-blue-100 hover:bg-blue-50 border-blue-300'
-         }  ease-in-out transition-all rounded border shadow-sm relative group `}
+         }  ease-in-out transition-all rounded border shadow-sm relative group p-1 `}
       >
          <button
             onClick={() => {
@@ -103,9 +104,7 @@ export default function PartForPurchase({
 
          <div className='text-xs font-mono text-center'>
             <div className='wrap mt-1 text-gray-700 max-w-full'>{name}</div>
-            <div className='text-gray-500 max-w-full'>{`${(Math.random() * 1000).toFixed(
-               0
-            )} left`}</div>
+            <div className={`${runningLow ? 'text-yellow-500' : 'text-gray-500'} max-w-full`}>{`${countLeft} left`}</div>
          </div>
       </div>
    )

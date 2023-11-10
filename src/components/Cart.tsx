@@ -7,16 +7,17 @@ import { useState } from 'react'
 export default function Cart() {
    const [hidden, setHidden] = useState(true)
    const [ping, setPing] = useState(false)
-   const x = useCartStore.subscribe(() => {
+   useCartStore.subscribe(() => {
       setPing(true)
       setTimeout(() => setPing(false), 500)
    })
+   const clearCart = useCartStore((state) => state.clear)
    const { items } = useCartStore()
    const nonZeroItems = getNonZeroItems(items).filter((i) => i.count > 0)
 
    return (
       <div
-         className='bg-white z-50 hover:bg-gray-100 shadow
+         className='bg-white z-50 shadow
       border border-gray-300 p-2 sm:p-4 fixed box-border bottom-2  w-[60%] sm:w-[90%] self-center font-mono rounded'
       >
          <div className='flex flex-row w-full justify-between'>
@@ -30,7 +31,7 @@ export default function Cart() {
                <div
                   className={`${
                      ping ? ' scale-150 -translate-y-2' : ''
-                  } transition ease-out delay-150 hover:bg-indigo-500 duration-200`}
+                  } transition ease-out delay-150 duration-200`}
                >{`(${nonZeroItems.length})`}</div>
                <div className={`${!hidden && 'rotate-180'}`}>
                   <svg
@@ -49,9 +50,15 @@ export default function Cart() {
                   </svg>
                </div>
             </div>
-            <button className='bg-blue-600 text-white font-londrina rounded-md px-4 py-2 shadow'>
-               Mint
-            </button>
+            
+            <div className='gap-x-6 flex flex-row'>
+               <button onClick={clearCart} className='text-red-500 px-4 py-1 rounded text-sm hover:bg-red-100 ease-in-out transition-all active:bg-red-200'>
+                  Clear
+               </button>
+               <button className='bg-blue-600 hover:bg-blue-500 active:bg-blue-400 text-white font-londrina rounded-md px-4 py-2 shadow'>
+                  Mint
+               </button>
+            </div>
          </div>
 
          <div

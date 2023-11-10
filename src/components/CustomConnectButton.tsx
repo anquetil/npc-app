@@ -37,7 +37,7 @@ export const CustomConnectButton = () => {
                      if (!connected) {
                         return (
                            <button
-                              className={`w-36 text-sm text-gray-800 rounded border p-2 shadow-sm hover:shadow bg-white
+                              className={`w-36 text-sm text-gray-800 rounded border p-2 shadow-sm hover:shadow bg-white hover:bg-gray-50
                               ease-in-out transition-all active:mt-[2px] active:mb-[-2px]`}
                               onClick={openConnectModal}
                               type='button'
