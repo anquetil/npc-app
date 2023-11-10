@@ -6,7 +6,7 @@ import NPCRenderer from '@/components/NPCRenderer'
 
 export default function Home() {
    return (
-      <main className='flex flex-col items-start w-full  p-4 sm:p-12 pb-16'>
+      <main className='flex flex-col items-start w-full  p-4 sm:p-12 pb-16 sm:pb-32'>
          <NPCRenderer />
          <HeroComponent />
          <AllParts categories={categories} />

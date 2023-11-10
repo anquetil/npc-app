@@ -37,7 +37,7 @@ export default function PartForPurchase({
             selected
                ? 'bg-green-100 hover:bg-green-50 border-green-300'
                : 'bg-blue-100 hover:bg-blue-50 border-blue-300'
-         }  ease-in-out transition-all rounded border shadow-sm relative group`}
+         }  ease-in-out transition-all rounded border shadow-sm relative group `}
       >
          <button
             onClick={() => {
@@ -66,8 +66,8 @@ export default function PartForPurchase({
                   <path
                      d='M8 2.75C8 2.47386 7.77614 2.25 7.5 2.25C7.22386 2.25 7 2.47386 7 2.75V7H2.75C2.47386 7 2.25 7.22386 2.25 7.5C2.25 7.77614 2.47386 8 2.75 8H7V12.25C7 12.5261 7.22386 12.75 7.5 12.75C7.77614 12.75 8 12.5261 8 12.25V8H12.25C12.5261 8 12.75 7.77614 12.75 7.5C12.75 7.22386 12.5261 7 12.25 7H8V2.75Z'
                      fill='currentColor'
-                     fill-rule='evenodd'
-                     clip-rule='evenodd'
+                     fillRule='evenodd'
+                     clipRule='evenodd'
                   ></path>
                </svg>
             ) : (
@@ -81,18 +81,18 @@ export default function PartForPurchase({
                   <path
                      d='M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z'
                      fill='currentColor'
-                     fill-rule='evenodd'
-                     clip-rule='evenodd'
+                     fillRule='evenodd'
+                     clipRule='evenodd'
                   ></path>
                </svg>
             )}
          </button>
-         <div className='z-10 opacity-0  group-hover:opacity-0 bg-gradient-to-b from-gray-500 absolute w-full h-1/2  ease-in-out transition-all '></div>
          <div className='min-w-full self-center flex flex-col'>
             <Image
-               className={`${trimming.get(category)} overflow-hidden  z-0 self-center ${
+               className={`${trimming.get(category)}  pointer-events-none overflow-auto z-0 self-center ${
                   category == 'Backgrounds' && 'rounded'
                }`}
+               
                width={160}
                height={160}
                alt={name}
