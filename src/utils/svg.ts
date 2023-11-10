@@ -494,10 +494,10 @@ function parseTraits(traits: { filename: string; data: string }[]): PartType[] {
 }
 
 export const categories: { name: string; traits: PartType[] }[] = [
-   { name: 'Bodies', traits: parseTraits(bodies) },
    { name: 'Accessories', traits: parseTraits(accessories) },
-   { name: 'Heads', traits: parseTraits(heads) },
    { name: 'Glasses', traits: parseTraits(glasses) },
+   { name: 'Heads', traits: parseTraits(heads) },
+   { name: 'Bodies', traits: parseTraits(bodies) },
    {
       name: 'Backgrounds',
       traits: [

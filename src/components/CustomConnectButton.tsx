@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 export const CustomConnectButton = () => {
    return (
@@ -60,10 +61,17 @@ export const CustomConnectButton = () => {
                      return (
                         <div className='flex flex-row gap-x-4 items-center'>
                            <button
-                              className='flex flex-row items-center gap-x-2 px-3 py-1 shadow hover:shadow-md ease-in-out transition-all duration-200 rounded-md border'
+                              className='bg-white border-gray-300 text-gray-700 flex flex-row items-center gap-x-2 px-3 py-1 rounded-md border text-sm hover:shadow-sm ease-in-out transition-all'
                               onClick={openAccountModal}
                               type='button'
                            >
+                              <Image
+                                 width={20}
+                                 height={20}
+                                 alt={'avatar'}
+                                 className='rounded-full'
+                                 src={account?.ensAvatar ?? 'https://noun.pics/0.png'}
+                              />
                               {account.displayName}
                            </button>
                         </div>

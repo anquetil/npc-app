@@ -1,10 +1,17 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Londrina_Solid } from 'next/font/google'
 import './globals.css'
 import { CustomConnectButton } from '@/components/CustomConnectButton'
 import { Providers } from './providers'
+import Link from 'next/link'
+import Cart from '@/components/Cart'
 
 const inter = Inter({ subsets: ['latin'] })
+export const ls = Londrina_Solid({
+   subsets: ['latin'],
+   variable: '--font-londrina',
+   weight: ['300', '400'],
+})
 
 export const metadata: Metadata = {
    title: 'Noun PCs',
@@ -14,13 +21,24 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
    return (
       <html lang='en'>
-         <body className={`${inter.className} min-h-screen`}>
+         <body className={`${inter.className} ${ls.variable} min-h-screen`}>
             <Providers>
-               <div className='flex flex-row w-full bg-gray-50 border border-gray-200 justify-between px-12 py-2 items-center'>
-                  <div>Noun Playable Citizens</div>
-                  <CustomConnectButton />
+               <div className='flex flex-row w-full bg-gray-50 border border-gray-200 justify-between px-12 py-3 items-center'>
+                  <div className='text-gray-700 text-xl font-londrina'>
+                     Noun Playable Citizens
+                  </div>
+                  <div className='flex flex-row gap-x-2 items-center'>
+                     <Link
+                        href='/cart'
+                        className='p-1 px-2 border border-gray-300 rounded text-sm shadow-sm bg-white hover:bg-gray-50 ease-in-out transition-all w-fit'
+                     >
+                        Cart
+                     </Link>
+                     <CustomConnectButton />
+                  </div>
                </div>
                {children}
+               <Cart />
             </Providers>
          </body>
       </html>

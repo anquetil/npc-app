@@ -11,6 +11,7 @@
    "dependencies": {
       "@nouns/assets": "^0.5.0",
       "@nouns/sdk": "^0.4.0",
+      "@radix-ui/react-accordion": "^1.1.2",
       "@rainbow-me/rainbowkit": "^1.2.0",
       "@vercel/analytics": "^1.1.1",
       "next": "14.0.1",
