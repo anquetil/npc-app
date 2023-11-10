@@ -28,12 +28,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                      Noun Playable Citizens
                   </div>
                   <div className='flex flex-row gap-x-2 items-center'>
-                     <Link
-                        href='/cart'
-                        className='p-1 px-2 border border-gray-300 rounded text-sm shadow-sm bg-white hover:bg-gray-50 ease-in-out transition-all w-fit'
-                     >
-                        Cart
-                     </Link>
                      <CustomConnectButton />
                   </div>
                </div>

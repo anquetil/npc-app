@@ -8,9 +8,16 @@ export default function HeroComponent() {
    const { isConnected, address } = useAccount()
    const hasNPC = isConnected && false // need NPC data
    return (
-      <div className='flex flex-col gap-y-1 mb-4'>
-         {hasNPC ? <div>{`Here are your npcs`}</div> : <MintNPCButton />}
-         {!isConnected && <CustomConnectButton />}
+      <div className='flex sm:flex-row flex-col sm:gap-x-6 sm:gap-y-0 gap-y-1 mb-4'>
+         {isConnected ? (
+            hasNPC ? (
+               <div>{`Here are your npcs`}</div>
+            ) : (
+               <MintNPCButton />
+            )
+         ) : (
+            <CustomConnectButton />
+         )}
          <div className='font-londrina font-light text-gray-500'>
             <div>1. Mint an NPC (Noun Playable Citizen)</div>
             <div>2. Collect some traits</div>

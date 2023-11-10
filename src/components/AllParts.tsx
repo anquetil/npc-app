@@ -19,7 +19,13 @@ export default function AllParts({
    const { items } = useCartStore()
 
    const addAllCategory = () => {
-      activeCategory.traits.map((t) => addToCart(t.name))
+      activeCategory.traits.map(
+         (t) => {
+            const item = items.get(t.name);
+            console.log(item)
+            if(item == undefined || item == 0)addToCart(t.name)
+         }
+      )
    }
 
    return (

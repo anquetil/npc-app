@@ -89,10 +89,11 @@ export default function PartForPurchase({
          </button>
          <div className='min-w-full self-center flex flex-col'>
             <Image
-               className={`${trimming.get(category)}  pointer-events-none overflow-auto z-0 self-center ${
+               className={`${trimming.get(
+                  category
+               )}  pointer-events-none overflow-auto z-0 self-center ${
                   category == 'Backgrounds' && 'rounded'
                }`}
-               
                width={160}
                height={160}
                alt={name}
