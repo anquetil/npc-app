@@ -19,12 +19,12 @@ export const ls = Londrina_Solid({
 export const pp_mono = localFont({
    src: [
       {
-         path: '../fonts/PPMondwest/PPMondwest-Regular.woff2',
+         path: './fonts/PPMondwest/PPMondwest-Regular.woff2',
          weight: '400',
          style: 'normal',
       },
       {
-         path: '../fonts/PPMondwest/PPMondwest-Bold.woff2',
+         path: './fonts/PPMondwest/PPMondwest-Bold.woff2',
          weight: '700',
          style: 'normal',
       },
