@@ -19,12 +19,12 @@ export const ls = Londrina_Solid({
 export const pp_mono = localFont({
    src: [
       {
-         path: './fonts/PPMondwest/PPMondwest-Regular.woff2',
+         path: './fonts/ppmondwest/ppmondwest-regular.woff2',
          weight: '400',
          style: 'normal',
       },
       {
-         path: './fonts/PPMondwest/PPMondwest-Bold.woff2',
+         path: './fonts/ppmondwest/ppmondwest-bold.woff2',
          weight: '700',
          style: 'normal',
       },
@@ -35,12 +35,12 @@ export const pp_mono = localFont({
 export const pp_sans = localFont({
    src: [
       {
-         path: './fonts/PPNeueBit/PPNeueBit-Regular.woff2',
+         path: './fonts/ppneuebit/ppneuebit-regular.woff2',
          weight: '400',
          style: 'normal',
       },
       {
-         path: './fonts/PPNeueBit/PPNeueBit-Bold.woff2',
+         path: './fonts/ppneuebit/ppneuebit-bold.woff2',
          weight: '700',
          style: 'normal',
       },
