@@ -20,5 +20,8 @@ export const useCartStore = create<CartState>()((set) => ({
          // can only be 0 or 1
          return { items: state.items.set(item, 1) }
       }),
-   clear: () => set(() => {return {items: new Map()}})
+   clear: () =>
+      set(() => {
+         return { items: new Map() }
+      }),
 }))

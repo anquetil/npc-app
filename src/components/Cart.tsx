@@ -50,9 +50,12 @@ export default function Cart() {
                   </svg>
                </div>
             </div>
-            
+
             <div className='gap-x-6 flex flex-row'>
-               <button onClick={clearCart} className='text-red-500 px-4 py-1 rounded text-sm hover:bg-red-100 ease-in-out transition-all active:bg-red-200'>
+               <button
+                  onClick={clearCart}
+                  className='text-red-500 px-4 py-1 rounded text-sm hover:bg-red-100 ease-in-out transition-all active:bg-red-200'
+               >
                   Clear
                </button>
                <button className='bg-blue-600 hover:bg-blue-500 active:bg-blue-400 text-white font-londrina rounded-md px-4 py-2 shadow'>

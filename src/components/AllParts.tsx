@@ -21,16 +21,16 @@ export default function AllParts() {
    }
 
    return (
-      <div className='flex flex-col w-full'>
-         <div className='flex flex-row gap-x-4 sm:gap-x-8 mb-4 border-b-2 border-gray-100 text-sm sm:text-base w-full px-2'>
+      <div className='flex flex-col w-full  p-4 sm:p-12'>
+         <div className='flex flex-row gap-x-4 sm:gap-x-6 mb-4  text-sm sm:text-base w-full px-2'>
             {categories.map((c, i) => (
                <div
                   key={c.name} // need a distinct id between tab
                   className={`${
                      c.name == tab
-                        ? 'border-b-[3px] -mb-[2px] border-blue-500 text-neutral-700'
-                        : 'text-neutral-500'
-                  } pb-1 hover:cursor-pointer hover:text-neutral-700`}
+                        ? ' text-neutral-900 bg-white border-opacity-100 '
+                        : 'text-neutral-800 hover:text-neutral-900 hover:bg-white hover:bg-opacity-90'
+                  } hover:cursor-pointer  rounded-2xl py-1 border border-opacity-0 border-amber-200 px-3`}
                   onClick={() => {
                      setTab(c.name)
                   }}

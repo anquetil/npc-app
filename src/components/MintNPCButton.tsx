@@ -1,10 +1,13 @@
 'use client'
 
-import { testSendETHAddressGoerli } from '@/utils/addresses'
+import { erc721railsABI } from '@/abis/erc721rails-abis'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { parseEther } from 'viem'
+import { parseAbi, parseAbiItem, parseEther } from 'viem'
 import {
+   useAccount,
+   useContractWrite,
+   usePrepareContractWrite,
    usePrepareSendTransaction,
    useSendTransaction,
    useWaitForTransaction,
@@ -13,75 +16,58 @@ import {
 const placeholderText = ['Minting your NPC.', 'Minting your NPC..', 'Minting your NPC...']
 
 export default function MintNPCButton() {
+   const { address } = useAccount() // assume user is connected if button is shown
    const [loadingText, setLoadingText] = useState(0)
    const router = useRouter()
 
-   const {
-      config,
-      error: configError,
-      isError: isConfigError,
-   } = usePrepareSendTransaction({
-      to: testSendETHAddressGoerli,
-      value: parseEther('0.0001'),
+   const { config: mintConfig } = usePrepareContractWrite({
+      chainId: 5,
+      address: '0x4dD30A31962431da2e7359de2527eeD09902B65F',
+      abi: erc721railsABI,
+      functionName: 'mintTo',
+      args: [address!, 1n],
    })
 
+   console.log('config', mintConfig)
+
    const {
-      sendTransaction,
+      write,
       data,
       isSuccess: sentTransaction,
       isError,
       error,
-   } = useSendTransaction(config)
+   } = useContractWrite(mintConfig)
 
-   const { isSuccess } = useWaitForTransaction({
+   const { isSuccess: mintSuccess } = useWaitForTransaction({
       hash: data?.hash,
       onSuccess: (data) => {
-         const tokenId = 10 //parseInt(data.logs[0].topics[3] as string, 16);
-         router.push(`/character/${tokenId}`)
+         const tokenId = parseInt(data.logs[0].topics[3] as string, 16)
+         router.push(`/npc/${tokenId}`)
       },
    })
-   useEffect(() => {
-      const timer = setInterval(() => {
-         setLoadingText((prevIndex) => {
-            if (prevIndex === placeholderText.length - 1) {
-               return 0
-            }
-            return prevIndex + 1
-         })
-      }, 400)
-      return () => clearInterval(timer) //cleanup function in order clear the interval timer when the component unmounts
-   }, [])
 
-   if (isSuccess && data) {
+   if (mintSuccess && data) {
       return <div>Minted! {data.hash}</div>
    } else if (sentTransaction) {
       return <div>{placeholderText[loadingText]}</div>
-   } else if (isError) {
+   } else {
       return (
          <div>
             <button
-               className='w-fit p-1 px-2 border border-gray-300 rounded text-sm shadow-sm hover:bg-gray-50 ease-in-out transition-all'
+               className='w-fit pp-sans py-2 px-4 bg-white hover:bg-gray-100 text-blue-800  border border-blue-500 rounded 
+               text-2xl font-bold leading-[.75] shadow-[0.75px_2px_0_0_#AAA]  ease-in-out transition-all active:shadow-none active:translate-x-[0.75px] active:translate-y-[2px]'
                onClick={() => {
-                  sendTransaction?.()
+                  write?.()
                }}
             >
                Mint a Noun PC
             </button>
-            <div className='text-xs text-red-500 font-mono overflow-clip'>
-               {error?.message.substring(0, 50)}
-            </div>
+            {/*isError && (
+               <div className='text-xs text-red-500 font-mono overflow-clip'>
+                  {error?.message.substring(0, 50)}
+               </div>
+            )*/}
          </div>
-      )
-   } else {
-      return (
-         <button
-            className='w-fit p-1 px-2 border border-gray-300 rounded text-sm shadow-sm hover:bg-gray-50 ease-in-out transition-all'
-            onClick={() => {
-               sendTransaction?.()
-            }}
-         >
-            Mint a Noun PC
-         </button>
       )
    }
 }

@@ -10,6 +10,14 @@
    font-family: var(--font-londrina);
 }
 
+.pp-mono {
+   font-family: var(--pp-mono);
+}
+
+.pp-sans {
+   font-family: var(--pp-sans);
+}
+
 .bg-pattern {
    background-color: #fff;
    opacity: 0.8;

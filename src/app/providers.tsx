@@ -8,17 +8,27 @@ import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
-import { base, baseGoerli } from 'viem/chains'
+import { base, goerli } from 'viem/chains'
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 const testNet = process.env.NEXT_PUBLIC_TESTNET == 'TRUE'
 
+const client = new ApolloClient({
+   uri:
+      testNet
+         ? process.env.NEXT_PUBLIC_GRAPHQL_API_GOERLI
+         : process.env.NEXT_PUBLIC_GRAPHQL_API_BASE,
+   cache: new InMemoryCache(),
+})
+
+
 const { chains, publicClient } = configureChains(
-   [testNet ? baseGoerli : base],
+   [testNet ? goerli : base],
    [
       alchemyProvider({
          apiKey:
             (testNet
-               ? process.env.NEXT_PUBLIC_ALCHEMY_KEY_BASE_GOERLI
+               ? process.env.NEXT_PUBLIC_ALCHEMY_KEY_GOERLI
                : process.env.NEXT_PUBLIC_ALCHEMY_ID_BASE) ?? '',
       }),
       publicProvider(),
@@ -41,11 +51,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
    const [mounted, setMounted] = React.useState(false)
    React.useEffect(() => setMounted(true), [])
    return (
-      <WagmiConfig config={wagmiConfig}>
-         <RainbowKitProvider chains={chains} initialChain={mainnet}>
-            <div className='flex flex-col'>{mounted && children}</div>
-            <Analytics />
-         </RainbowKitProvider>
-      </WagmiConfig>
+      <ApolloProvider client={client}>
+         <WagmiConfig config={wagmiConfig}>
+            <RainbowKitProvider chains={chains} initialChain={mainnet}>
+               <div className='flex flex-col'>{mounted && children}</div>
+               <Analytics />
+            </RainbowKitProvider>
+         </WagmiConfig>
+      </ApolloProvider>
    )
 }

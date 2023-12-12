@@ -1,41 +1,38 @@
 'use client'
 
-import { useAccount } from 'wagmi'
+import { useAccount, useChainId, useNetwork } from 'wagmi'
 import { CustomConnectButton } from './CustomConnectButton'
 import MintNPCButton from './MintNPCButton'
 import Image from 'next/image'
+import { generateNoun } from '@/utils/svg'
+import { goerli } from 'viem/chains'
+import Link from 'next/link'
 
 export default function HeroComponent() {
    const { isConnected, address } = useAccount()
+   const { chain, chains } = useNetwork()
+   console.log(chain, chains)
    const hasNPC = isConnected && false // need NPC data
    return (
-      <div className='flex sm:flex-row flex-col sm:gap-x-6 sm:gap-y-0 gap-y-1 mb-4 w-full sm:justify-center pb-4 border-b border-gray-300'>
-         <Image 
-            width={400}
-            height={400}
-            alt={'noun'}
-            src={'https://noun.pics/901.svg'}
-            className='rounded-lg'
-         />
-
+      <div className='w-screen flex sm:flex-row flex-col items-center p-4 sm:p-12 sm:gap-x-6 sm:gap-y-0 gap-y-1 mb-4 border-b border-gray-300 bg-[#0A10A6]'>
          <div className='flex flex-col gap-y-2'>
-            {isConnected ? (
-               hasNPC ? (
-                  <div>{`Here are your npcs`}</div>
-               ) : (
-                  <MintNPCButton />
-               )
-            ) : (
-               <CustomConnectButton />
-            )}
-            <div className='font-londrina font-light text-gray-700 text-lg'>
-               <div>1. Mint a Noun Playable Citizen (NPC)</div>
-               <div>2. Collect some traits</div>
-               <div>3. Equip your Noun with as many traits as you want!</div>
-               <div>4. Explore the Nouniverse with your Noun - vote, propose, bid!</div>
+            <div className={`flex flex-col gap-y-0`}>
+               <div className='pp-sans font-bold text-white text-8xl leading-[0.75]'>
+                  Noun Playable Citizens
+               </div>
+               <div className='pp-mono text-white text-3xl'>
+                  Own, Collect, Participate
+               </div>
             </div>
+            <MintNPCButton />
          </div>
-      
+         <Image
+            width={300}
+            height={300}
+            alt={'noun'}
+            src={generateNoun()}
+            className='-mt-8'
+         />
       </div>
    )
 }

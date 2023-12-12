@@ -15,6 +15,7 @@ export default function PartForPurchase({
    const { name, svg } = part
    const cartItems = useCartStore((state) => state.items)
    const cartItem = cartItems.get(name)
+   const isHead = category == 'Heads'
 
    const addToCart = useCartStore((state) => state.add)
    const removeFromCart = useCartStore((state) => state.remove)
@@ -25,20 +26,14 @@ export default function PartForPurchase({
    const [selected, setSelected] = useState<boolean>(inCart)
    const countLeft = name.length * 5 + name.charCodeAt(0)
    const runningLow = countLeft < 100
-   const trimming = new Map([
-      ['Bodies', '-mt-[30%]'],
-      ['Heads', '-mb-3'],
-      ['Accessories', '-mt-[40%]'],
-      ['Glasses', '-mb-[30%] -mt-2'],
-      ['Backgrounds', ''],
-   ])
+
    return (
       <div
-         className={`flex flex-col w-40 items-center gap-y-1 ${
+         className={`flex flex-col items-center gap-y-1 ${
             selected
                ? 'bg-green-100 hover:bg-green-50 border-green-300'
-               : 'bg-blue-100 hover:bg-blue-50 border-blue-300'
-         }  ease-in-out transition-all rounded border shadow-sm relative group p-1 `}
+               : 'bg-[#f9f6ee]  '
+         }  ease-in-out transition-all rounded border shadow-sm relative group `}
       >
          <button
             onClick={() => {
@@ -88,23 +83,24 @@ export default function PartForPurchase({
                </svg>
             )}
          </button>
-         <div className='min-w-full self-center flex flex-col'>
+         <div className='min-w-full self-center flex flex-col overflow-hidden'>
             <Image
-               className={`${trimming.get(
-                  category
-               )}  pointer-events-none overflow-auto z-0 self-center ${
+               className={`bg-white bg-opacity-40 pointer-events-none overflow-auto  z-50 self-center  ${
                   category == 'Backgrounds' && 'rounded'
                }`}
-               width={160}
-               height={160}
+               width={220}
+               height={220}
                alt={name}
                src={svg}
             />
          </div>
 
-         <div className='text-xs font-mono text-center'>
-            <div className='wrap mt-1 text-gray-700 max-w-full'>{name}</div>
-            <div className={`${runningLow ? 'text-yellow-500' : 'text-gray-500'} max-w-full`}>{`${countLeft} left`}</div>
+         <div
+            className={`text-left text-sm font-medium wrap text-black max-w-[66%] px-[6px] py-[2px] absolute ${
+               isHead ? 'bottom-2' : 'top-2'
+            } left-2 bg-[#F2E0B3] rounded-lg`}
+         >
+            {name}
          </div>
       </div>
    )

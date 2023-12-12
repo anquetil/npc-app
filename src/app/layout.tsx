@@ -1,16 +1,51 @@
 import type { Metadata } from 'next'
-import { Inter, Londrina_Solid } from 'next/font/google'
+import { Hanken_Grotesk, Inter, Londrina_Solid } from 'next/font/google'
 import './globals.css'
 import { CustomConnectButton } from '@/components/CustomConnectButton'
 import { Providers } from './providers'
-import Link from 'next/link'
+import localFont from 'next/font/local'
 import Cart from '@/components/Cart'
 
+const hk = Hanken_Grotesk({ subsets: ['latin'] })
 const inter = Inter({ subsets: ['latin'] })
+
 export const ls = Londrina_Solid({
    subsets: ['latin'],
    variable: '--font-londrina',
    weight: ['300', '400'],
+})
+
+// Font files can be colocated inside of `app`
+export const pp_mono = localFont({
+   src: [
+      {
+         path: '../fonts/PPMondwest/PPMondwest-Regular.woff2',
+         weight: '400',
+         style: 'normal',
+      },
+      {
+         path: '../fonts/PPMondwest/PPMondwest-Bold.woff2',
+         weight: '700',
+         style: 'normal',
+      },
+   ],
+   variable: '--pp-mono',
+})
+
+export const pp_sans = localFont({
+   src: [
+      {
+         path: '../fonts/PPNeueBit/PPNeueBit-Regular.woff2',
+         weight: '400',
+         style: 'normal',
+      },
+      {
+         path: '../fonts/PPNeueBit/PPNeueBit-Bold.woff2',
+         weight: '700',
+         style: 'normal',
+      },
+   ],
+   variable: '--pp-sans',
 })
 
 export const metadata: Metadata = {
@@ -21,18 +56,19 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
    return (
       <html lang='en'>
-         <body className={`${inter.className} ${ls.variable} min-h-screen`}>
+         <body
+            className={`${hk.className} ${ls.variable} ${pp_sans.variable} ${pp_mono.variable} min-h-screen`}
+         >
             <Providers>
-               <div className='flex flex-row w-full bg-gray-50 border border-gray-200 justify-between px-12 py-3 items-center'>
-                  <div className='text-gray-700 text-xl font-londrina'>
+               {/*<div className='flex flex-row w-full bg-amber-100 border border-amber-200 justify-between px-12 py-3 items-center'>
+                  <div className='text-red-900 text-xl pp-sans'>
                      Noun Playable Citizens
                   </div>
                   <div className='flex flex-row gap-x-2 items-center'>
                      <CustomConnectButton />
                   </div>
-               </div>
+   </div>*/}
                {children}
-               <Cart />
             </Providers>
          </body>
       </html>
