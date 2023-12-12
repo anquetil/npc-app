@@ -35,12 +35,12 @@ export const pp_mono = localFont({
 export const pp_sans = localFont({
    src: [
       {
-         path: '../fonts/PPNeueBit/PPNeueBit-Regular.woff2',
+         path: './fonts/PPNeueBit/PPNeueBit-Regular.woff2',
          weight: '400',
          style: 'normal',
       },
       {
-         path: '../fonts/PPNeueBit/PPNeueBit-Bold.woff2',
+         path: './fonts/PPNeueBit/PPNeueBit-Bold.woff2',
          weight: '700',
          style: 'normal',
       },
