@@ -6,7 +6,7 @@ import { PrimaryTabs } from '@/components/PrimaryTabs'
 export default function Home() {
    return (
       <main className='flex flex-col items-start w-full'>
-         <CustomConnectButton/>
+         <CustomConnectButton />
          <HeroComponent />
       </main>
    )

@@ -21,7 +21,7 @@ export default function MintNPCButton() {
    const { address, isConnected } = useAccount() // assume user is connected if button is shown
    const [loadingText, setLoadingText] = useState(0)
    const router = useRouter()
-   const { openConnectModal } = useConnectModal();
+   const { openConnectModal } = useConnectModal()
 
    const { config: mintConfig } = usePrepareContractWrite({
       chainId: chainID,
@@ -58,7 +58,7 @@ export default function MintNPCButton() {
                className='w-fit pp-sans py-2 px-4 bg-white hover:bg-gray-100 text-blue-800  border border-blue-500 rounded 
                text-2xl font-bold leading-[.75] shadow-[0.75px_2px_0_0_#AAA]  ease-in-out transition-all active:shadow-none active:translate-x-[0.75px] active:translate-y-[2px]'
                onClick={() => {
-                  isConnected ?  write?.() : openConnectModal?.()
+                  isConnected ? write?.() : openConnectModal?.()
                }}
             >
                Mint a Noun PC

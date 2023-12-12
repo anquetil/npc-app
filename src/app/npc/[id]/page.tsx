@@ -14,8 +14,8 @@ import NPCBlock from '@/components/NPCBlock'
 
 export default async function NPCPage({ params }: { params: { id: string } }) {
    // const { address } = useAccount()
-   const { id } = params;
-   if (id && (id !== '') && !isNaN(Number(id.toString()))){
+   const { id } = params
+   if (id && id !== '' && !isNaN(Number(id.toString()))) {
       return (
          <main className='flex flex-col items-start w-full'>
             <div>toolbar</div>
@@ -23,11 +23,6 @@ export default async function NPCPage({ params }: { params: { id: string } }) {
          </main>
       )
    } else {
-      return (
-         <div>
-            404, not a valid id
-         </div>
-      )
+      return <div>404, not a valid id</div>
    }
-
 }

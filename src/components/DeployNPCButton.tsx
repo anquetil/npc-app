@@ -16,7 +16,13 @@ import {
 } from 'wagmi'
 import { CustomConnectButton } from './CustomConnectButton'
 
-export default function DeployNPCButton({ tokenID, callback }: { tokenID: number, callback: () => void}) {
+export default function DeployNPCButton({
+   tokenID,
+   callback,
+}: {
+   tokenID: number
+   callback: () => void
+}) {
    const chainID = process.env.NEXT_PUBLIC_TESTNET == 'TRUE' ? 5 : 8453
    const router = useRouter()
 
@@ -26,19 +32,15 @@ export default function DeployNPCButton({ tokenID, callback }: { tokenID: number
       abi: ERC6551RegistryABI,
       functionName: 'createAccount',
       args: [
-         deploys.erc6551AccountImpl as Address,  //implementation
-         "0x0000000000000000000000000000000000000000000000000000000000000000", // salt
-         BigInt(chainID),// chainId
-         deploys['NPC(721)'] as Address, 
-         BigInt(tokenID)
+         deploys.erc6551AccountImpl as Address, //implementation
+         '0x0000000000000000000000000000000000000000000000000000000000000000', // salt
+         BigInt(chainID), // chainId
+         deploys['NPC(721)'] as Address,
+         BigInt(tokenID),
       ],
    })
 
-   const {
-      write,
-      data,
-      isSuccess: sentTransaction,
-   } = useContractWrite(deployConfig)
+   const { write, data, isSuccess: sentTransaction } = useContractWrite(deployConfig)
 
    const { isSuccess: deployedSuccess } = useWaitForTransaction({
       hash: data?.hash,
@@ -66,7 +68,7 @@ export default function DeployNPCButton({ tokenID, callback }: { tokenID: number
                   {error?.message.substring(0, 50)}
                </div>
             )*/}
-            <CustomConnectButton/>
+            <CustomConnectButton />
          </div>
       )
    }

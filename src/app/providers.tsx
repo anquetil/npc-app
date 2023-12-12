@@ -14,13 +14,11 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 const testNet = process.env.NEXT_PUBLIC_TESTNET == 'TRUE'
 
 const client = new ApolloClient({
-   uri:
-      testNet
-         ? process.env.NEXT_PUBLIC_GRAPHQL_API_GOERLI
-         : process.env.NEXT_PUBLIC_GRAPHQL_API_BASE,
+   uri: testNet
+      ? process.env.NEXT_PUBLIC_GRAPHQL_API_GOERLI
+      : process.env.NEXT_PUBLIC_GRAPHQL_API_BASE,
    cache: new InMemoryCache(),
 })
-
 
 const { chains, publicClient } = configureChains(
    [testNet ? goerli : base],
