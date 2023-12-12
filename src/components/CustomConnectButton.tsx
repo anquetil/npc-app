@@ -54,7 +54,7 @@ export const CustomConnectButton = () => {
                               onClick={openChainModal}
                               type='button'
                            >
-                              Switch to Base
+                              Switch to {process.env.NEXT_PUBLIC_TESTNET == 'TRUE' ? "Goerli" : "Base"}
                            </button>
                         )
                      }

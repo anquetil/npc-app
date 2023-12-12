@@ -53,7 +53,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
    return (
       <ApolloProvider client={client}>
          <WagmiConfig config={wagmiConfig}>
-            <RainbowKitProvider chains={chains} initialChain={mainnet}>
+            <RainbowKitProvider chains={chains} initialChain={chains[0]}>
                <div className='flex flex-col'>{mounted && children}</div>
                <Analytics />
             </RainbowKitProvider>
