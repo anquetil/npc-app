@@ -18,11 +18,11 @@ export const ls = Londrina_Solid({
 // Font files can be colocated inside of `app`
 export const pp_mono = localFont({
    src: [
-      {
+      /*{
          path: './fonts/ppmondwest/ppmondwest-regular.woff2',
          weight: '400',
          style: 'normal',
-      },
+      },*/
       {
          path: './fonts/ppmondwest/ppmondwest-bold.woff2',
          weight: '700',
