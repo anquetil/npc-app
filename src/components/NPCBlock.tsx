@@ -44,7 +44,7 @@ export default function NPCBlock({ id }: { id: string }) {
             </div>
             {deployed ? (
                <div className='px-6'>
-                  {isOwner ? (
+                  {true ? (
                      <div>
                         <div className='flex flex-col-reverse sm:flex-row'>
                            <AllParts />
