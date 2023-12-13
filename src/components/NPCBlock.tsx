@@ -9,8 +9,11 @@ import MintNPCButton from './MintNPCButton'
 import DeployNPCButton from './DeployNPCButton'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import NPCRenderer from './NPCRenderer'
+import { Addreth } from 'addreth'
 
 export default function NPCBlock({ id }: { id: string }) {
+   const testNet = process.env.NEXT_PUBLIC_TESTNET == 'TRUE'
    const [refresh, setRefresh] = useState(false) // used to clear cache in parent
    const { npc, loading } = useGetNPC(id, true, refresh)
    const { address } = useAccount()
@@ -20,17 +23,44 @@ export default function NPCBlock({ id }: { id: string }) {
       const { deployed, owner } = npc
       const isOwner = address && isAddressEqual(address, owner) // current address is owner
       return (
-         <div>
+         <div className='px-6'>
+            <div className='pp-sans text-6xl text-gray-800'>{`NPC #${id}`}</div>
+            <div className='text-gray-700 '>
+               {`Owner: `}
+               <Addreth
+                  icon={false}
+                  address={npc.owner}
+                  theme={{
+                     textColor: 'rgb(55,65,81)',
+                     badgeBackground: 'rgb(243 244 246)',
+                     badgeGap: 0,
+                  }}
+                  explorer={(address) => ({
+                     name: testNet ? 'Goerliscan' : 'Basescan',
+                     accountUrl: testNet
+                        ? `https://goerli.etherscan.io/address/${address}`
+                        : `https://basescan.com/address/${address}`,
+                  })}
+               />
+            </div>
             {deployed ? (
                <div>
-                  here is your npc
                   {npc.TBAAddress}
-                  <AllParts />
-                  <Cart />
+                  {isOwner ? (
+                     <div>
+                        <div className='flex flex-col-reverse sm:flex-row'>
+                           <AllParts />
+                           <NPCRenderer id={Number(id)} />
+                        </div>
+                        <Cart />
+                     </div>
+                  ) : (
+                     <NPCRenderer id={Number(id)} />
+                  )}
                </div>
             ) : (
                <div>
-                  {`This NPC hasn't been setup yet. Deploy it to start buying traits`}
+                  {`This NPC hasn't been setup yet. If this is yours, turn it on to start buying traits`}
                   <DeployNPCButton
                      tokenID={npc.id}
                      callback={() => {
@@ -41,5 +71,7 @@ export default function NPCBlock({ id }: { id: string }) {
             )}
          </div>
       )
+   } else {
+      ;<div>Error fetching NPC</div>
    }
 }

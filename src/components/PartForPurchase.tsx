@@ -4,6 +4,9 @@ import Image from 'next/image'
 import { useCartStore } from '@/stores/useCartStore'
 import { PartType } from '@/types/PartType'
 import { useState } from 'react'
+import { Address, useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { erc1155railsABI } from '@/abis/erc1155railsABI'
+import { deploys } from '@/utils/addresses'
 
 export default function PartForPurchase({
    part,
@@ -27,6 +30,22 @@ export default function PartForPurchase({
    const countLeft = name.length * 5 + name.charCodeAt(0)
    const runningLow = countLeft < 100
 
+   /* TESTING 1155 MINT */
+   const chainID = process.env.NEXT_PUBLIC_TESTNET == 'TRUE' ? 5 : 8453
+   const { config: mintConfig } = usePrepareContractWrite({
+      chainId: chainID,
+      address: deploys['Trait(1155)'] as Address,
+      abi: erc1155railsABI,
+      functionName: 'mintTo',
+      args: ['0x2134c9d2d96ff6b83e41ffd195b1f43bc797ed78', 1n, 1n], //TBAaddress (npc 5 rn), tokenID, value (qty)
+   })
+
+   const { write, data, isSuccess: sentTransaction } = useContractWrite(mintConfig)
+
+   if (data) {
+      console.log(data)
+   }
+
    return (
       <div
          className={`flex flex-col items-center gap-y-1 ${
@@ -37,13 +56,15 @@ export default function PartForPurchase({
       >
          <button
             onClick={() => {
+               write?.()
+               /*
                if (selected && inCart) {
                   setSelected(false)
                   removeFromCart(name)
                } else if (!selected && !inCart) {
                   setSelected(true)
                   addToCart(name)
-               }
+               }*/
             }}
             className={`z-20  absolute ${
                selected
@@ -85,7 +106,7 @@ export default function PartForPurchase({
          </button>
          <div className='min-w-full self-center flex flex-col overflow-hidden'>
             <Image
-               className={`bg-white bg-opacity-40 pointer-events-none overflow-auto  z-50 self-center  ${
+               className={`bg-white bg-opacity-40 pointer-events-none overflow-auto self-center  ${
                   category == 'Backgrounds' && 'rounded'
                }`}
                width={220}

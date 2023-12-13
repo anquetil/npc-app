@@ -1,10 +1,11 @@
 'use client'
 
 import { erc721railsABI } from '@/abis/erc721rails-abis'
+import { deploys } from '@/utils/addresses'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { parseAbi, parseAbiItem, parseEther } from 'viem'
+import { Address, parseAbi, parseAbiItem, parseEther } from 'viem'
 import {
    useAccount,
    useContractWrite,
@@ -25,7 +26,7 @@ export default function MintNPCButton() {
 
    const { config: mintConfig } = usePrepareContractWrite({
       chainId: chainID,
-      address: '0x4dD30A31962431da2e7359de2527eeD09902B65F',
+      address: deploys['NPC(721)'] as Address,
       abi: erc721railsABI,
       functionName: 'mintTo',
       args: [address!, 1n],

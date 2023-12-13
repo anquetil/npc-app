@@ -60,6 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             className={`${hk.className} ${ls.variable} ${pp_sans.variable} ${pp_mono.variable} min-h-screen`}
          >
             <Providers>
+               <div>Layout toolbar</div>
                {/*<div className='flex flex-row w-full bg-amber-100 border border-amber-200 justify-between px-12 py-3 items-center'>
                   <div className='text-red-900 text-xl pp-sans'>
                      Noun Playable Citizens

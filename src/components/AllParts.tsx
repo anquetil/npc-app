@@ -21,7 +21,7 @@ export default function AllParts() {
    }
 
    return (
-      <div className='flex flex-col w-full  p-4 sm:p-12'>
+      <div className='flex flex-col w-full shrink p-4 sm:p-12'>
          <div className='flex flex-row gap-x-4 sm:gap-x-6 mb-4  text-sm sm:text-base w-full px-2'>
             {categories.map((c, i) => (
                <div

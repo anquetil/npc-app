@@ -48,9 +48,9 @@ export default function DeployNPCButton({
    })
 
    if (deployedSuccess && data) {
-      return <div>Deployed! {data.hash}</div>
+      return <div>NPC Turned on! {data.hash}</div>
    } else if (sentTransaction) {
-      return <div>{`Deploying NFT`}</div>
+      return <div>{`Turning on...`}</div>
    } else {
       return (
          <div>
@@ -61,7 +61,7 @@ export default function DeployNPCButton({
                   write?.()
                }}
             >
-               {`Deploy Noun PC #${tokenID}`}
+               {`Turn On Noun PC #${tokenID}`}
             </button>
             {/*isError && (
                <div className='text-xs text-red-500 font-mono overflow-clip'>
