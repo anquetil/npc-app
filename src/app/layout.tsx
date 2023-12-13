@@ -16,18 +16,18 @@ export const ls = Londrina_Solid({
 })
 
 // Font files can be colocated inside of `app`
-/*export const pp_mono = localFont({
+export const pp_mono = localFont({
    src: [
       {
-         path: './fonts/ppmondwest/ppmondwest-regular.woff2',
+         path: './fonts/PPMondwest-Regular.otf',
          weight: '400',
          style: 'normal',
       },
-      {
+      /*{
          path: './fonts/ppmondwest/ppmondwest-bold.woff2',
          weight: '700',
          style: 'normal',
-      },
+      },*/
    ],
    variable: '--pp-mono',
 })
@@ -35,18 +35,18 @@ export const ls = Londrina_Solid({
 export const pp_sans = localFont({
    src: [
       {
-         path: './fonts/ppneuebit/ppneuebit-regular.woff2',
+         path: './fonts/PPNeueBit-Bold.otf',
          weight: '400',
          style: 'normal',
       },
-      {
+      /*{
          path: './fonts/ppneuebit/ppneuebit-bold.woff2',
          weight: '700',
          style: 'normal',
-      },
+      },*/
    ],
    variable: '--pp-sans',
-})*/
+})
 
 export const metadata: Metadata = {
    title: 'Noun PCs',
@@ -57,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
    return (
       <html lang='en'>
          <body
-            className={`${hk.className} ${ls.variable} ${/*pp_sans.variable*/ ls.variable} ${/*pp_mono.variable*/ ls.variable} min-h-screen`}
+            className={`${hk.className} ${ls.variable} ${pp_sans.variable} ${pp_mono.variable} min-h-screen`}
          >
             <Providers>
                {/*<div className='flex flex-row w-full bg-amber-100 border border-amber-200 justify-between px-12 py-3 items-center'>
