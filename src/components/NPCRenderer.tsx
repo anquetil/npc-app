@@ -35,7 +35,7 @@ export default function NPCRenderer({ id }: { id: number }) {
       <div>
          <div className='w-80 h-80'>
             <div className='relative'>
-               {/* eslint-disable-next-line @next/next/no-img-element */ }
+               {/* eslint-disable-next-line @next/next/no-img-element */}
                <img
                   className='absolute top-0 left-0 '
                   alt={'boop'}

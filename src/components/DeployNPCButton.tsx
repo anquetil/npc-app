@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Address } from 'viem'
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { CustomConnectButton } from './CustomConnectButton'
+import { currentChainID } from '@/utils/chainFuncs'
 
 export default function DeployNPCButton({
    tokenID,
@@ -14,18 +15,15 @@ export default function DeployNPCButton({
    tokenID: number
    callback: () => void
 }) {
-   const chainID = process.env.NEXT_PUBLIC_TESTNET == 'TRUE' ? 5 : 8453
-   const router = useRouter()
-
    const { config: deployConfig } = usePrepareContractWrite({
-      chainId: chainID,
+      chainId: currentChainID(),
       address: deploys.erc6551Registry as Address,
       abi: ERC6551RegistryABI,
       functionName: 'createAccount',
       args: [
          deploys.erc6551AccountImpl as Address, //implementation
          '0x0000000000000000000000000000000000000000000000000000000000000000', // salt
-         BigInt(chainID), // chainId
+         BigInt(currentChainID()), // chainId
          deploys['NPC(721)'] as Address,
          BigInt(tokenID),
       ],

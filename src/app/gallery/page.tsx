@@ -1,5 +1,9 @@
 // import NPCRenderer from '@/components/NPCRenderer'
 
+import Gallery from "@/components/Gallery"
+
 export default function testPage() {
-   return <div>hello</div>
+   return (<div>
+      <Gallery/>
+   </div>)
 }

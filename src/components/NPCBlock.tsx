@@ -20,13 +20,14 @@ export default function NPCBlock({ id }: { id: string }) {
       const { deployed, owner } = npc
       const isOwner = address && isAddressEqual(address, owner) // current address is owner
       return (
-         <div className='px-6'>
-            <div className='pp-sans text-6xl text-gray-800'>{`NPC #${id}`}</div>
-            <div className='text-gray-700 '>
+         <div className='bg-white'>
+            <div className='pp-sans text-6xl text-gray-800 bg-gray-100 px-6 -mb-2 mt-1'>{`Noun PC #${id}`}</div>
+            <div className='text-gray-700 bg-gray-100 pb-3 mb-3 px-6'>
                {`Owner: `}
                <Addreth
                   icon={false}
                   address={npc.owner}
+                  actions='none'
                   theme={{
                      textColor: 'rgb(55,65,81)',
                      badgeBackground: 'rgb(243 244 246)',
@@ -39,10 +40,10 @@ export default function NPCBlock({ id }: { id: string }) {
                         : `https://basescan.com/address/${address}`,
                   })}
                />
+               {deployed && <div>{npc.TBAAddress }</div>}
             </div>
             {deployed ? (
-               <div>
-                  {npc.TBAAddress}
+               <div className='px-6'>
                   {isOwner ? (
                      <div>
                         <div className='flex flex-col-reverse sm:flex-row'>
@@ -56,7 +57,7 @@ export default function NPCBlock({ id }: { id: string }) {
                   )}
                </div>
             ) : (
-               <div>
+               <div className='px-6'>
                   {`This NPC hasn't been setup yet. If this is yours, turn it on to start buying traits`}
                   <DeployNPCButton
                      tokenID={npc.id}
@@ -69,6 +70,6 @@ export default function NPCBlock({ id }: { id: string }) {
          </div>
       )
    } else {
-      ;<div>Error fetching NPC</div>
+      <div>Error fetching NPC</div>
    }
 }

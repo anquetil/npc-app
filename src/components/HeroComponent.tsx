@@ -11,14 +11,14 @@ export default function HeroComponent() {
    console.log(chain, chains)
    // const hasNPC = isConnected && false // need NPC data
    return (
-      <div className='w-screen flex sm:flex-row flex-col items-center p-4 sm:p-12 sm:gap-x-6 sm:gap-y-0 gap-y-1 mb-4 border-b border-gray-300 bg-[#0A10A6]'>
+      <div className='w-screen flex sm:flex-row flex-col items-center p-4 sm:p-12 sm:gap-x-6 sm:gap-y-0 gap-y-1 mb-4 border-b border-gray-300   bg-[#0A10A6]'>
          <div className='flex flex-col gap-y-2'>
             <div className={`flex flex-col gap-y-0`}>
-               <div className='pp-sans font-bold text-white text-8xl leading-[0.75]'>
+               <div className='pp-sans font-bold text-[#e8eafd] text-8xl leading-[0.75]'>
                   Noun Playable Citizens
                </div>
-               <div className='pp-mono text-white text-3xl'>
-                  Own, Collect, Participate
+               <div className='pp-mono text-gray-100  text-[#cecfed] text-3xl'>
+                  Collect, Create, Vote
                </div>
             </div>
             <MintNPCButton />

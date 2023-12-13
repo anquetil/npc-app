@@ -9,22 +9,21 @@ import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 import { base, goerli } from 'viem/chains'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-
-const testNet = process.env.NEXT_PUBLIC_TESTNET == 'TRUE'
+import { isTestNet } from '@/utils/chainFuncs'
 
 const client = new ApolloClient({
-   uri: testNet
+   uri: isTestNet()
       ? process.env.NEXT_PUBLIC_GRAPHQL_API_GOERLI
       : process.env.NEXT_PUBLIC_GRAPHQL_API_BASE,
    cache: new InMemoryCache(),
 })
 
 const { chains, publicClient } = configureChains(
-   [testNet ? goerli : base],
+   [isTestNet() ? goerli : base],
    [
       alchemyProvider({
          apiKey:
-            (testNet
+            (isTestNet()
                ? process.env.NEXT_PUBLIC_ALCHEMY_KEY_GOERLI
                : process.env.NEXT_PUBLIC_ALCHEMY_ID_BASE) ?? '',
       }),

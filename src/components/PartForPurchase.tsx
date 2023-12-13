@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { Address, useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { erc1155railsABI } from '@/abis/erc1155railsABI'
 import { deploys } from '@/utils/addresses'
+import { currentChainID } from '@/utils/chainFuncs'
 
 export default function PartForPurchase({
    part,
@@ -31,9 +32,8 @@ export default function PartForPurchase({
    const runningLow = countLeft < 100
 
    /* TESTING 1155 MINT */
-   const chainID = process.env.NEXT_PUBLIC_TESTNET == 'TRUE' ? 5 : 8453
    const { config: mintConfig } = usePrepareContractWrite({
-      chainId: chainID,
+      chainId: currentChainID(),
       address: deploys['Trait(1155)'] as Address,
       abi: erc1155railsABI,
       functionName: 'mintTo',

@@ -2,13 +2,14 @@
 
 import { erc721railsABI } from '@/abis/erc721rails-abis'
 import { deploys } from '@/utils/addresses'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Address } from 'viem'
 import {
    useAccount,
    useContractWrite,
+   useNetwork,
    usePrepareContractWrite,
    useWaitForTransaction,
 } from 'wagmi'
@@ -18,9 +19,11 @@ const placeholderText = ['Minting your NPC.', 'Minting your NPC..', 'Minting you
 export default function MintNPCButton() {
    const chainID = process.env.NEXT_PUBLIC_TESTNET == 'TRUE' ? 5 : 8453
    const { address, isConnected } = useAccount() // assume user is connected if button is shown
+   const { chain } = useNetwork()
    const [loadingText, setLoadingText] = useState(0)
    const router = useRouter()
    const { openConnectModal } = useConnectModal()
+   const { openChainModal } = useChainModal()
 
    const { config: mintConfig } = usePrepareContractWrite({
       chainId: chainID,
@@ -54,10 +57,10 @@ export default function MintNPCButton() {
       return (
          <div>
             <button
-               className='w-fit pp-sans py-2 px-4 bg-white hover:bg-gray-100 text-blue-800  border border-blue-500 rounded 
+               className='w-fit pp-sans py-2 px-4 bg-white hover:bg-gray-100 text-blue-800  border border-blue-700 rounded 
                text-2xl font-bold leading-[.75] shadow-[0.75px_2px_0_0_#AAA]  ease-in-out transition-all active:shadow-none active:translate-x-[0.75px] active:translate-y-[2px]'
                onClick={() => {
-                  isConnected ? write?.() : openConnectModal?.()
+                  isConnected ? (chain?.id == chainID ? write?.(): openChainModal?.()) : openConnectModal?.() //if not connected, prompt connect, if wrong chain prompt right chain
                }}
             >
                Mint a Noun PC

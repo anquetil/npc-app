@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { isTestNet } from '@/utils/chainFuncs'
 export const CustomConnectButton = () => {
    return (
       <ConnectButton.Custom>
@@ -37,8 +38,8 @@ export const CustomConnectButton = () => {
                      if (!connected) {
                         return (
                            <button
-                              className={`w-36 text-sm text-gray-800 rounded border p-2 shadow-sm hover:shadow bg-white hover:bg-gray-50
-                              ease-in-out transition-all active:mt-[2px] active:mb-[-2px]`}
+                              className={`w-32 text-sm text-gray-800 rounded border p-2 shadow-sm hover:shadow bg-white hover:bg-gray-50
+                              ease-in-out transition-all`}
                               onClick={openConnectModal}
                               type='button'
                            >
@@ -55,7 +56,7 @@ export const CustomConnectButton = () => {
                               type='button'
                            >
                               Switch to{' '}
-                              {process.env.NEXT_PUBLIC_TESTNET == 'TRUE'
+                              {isTestNet()
                                  ? 'Goerli'
                                  : 'Base'}
                            </button>
@@ -64,7 +65,7 @@ export const CustomConnectButton = () => {
                      return (
                         <div className='flex flex-row gap-x-4 items-center'>
                            <button
-                              className='bg-white border-gray-300 text-gray-700 flex flex-row items-center gap-x-2 px-3 py-1 rounded-md border text-sm hover:shadow-sm ease-in-out transition-all'
+                              className='bg-white border-gray-300 text-gray-700 flex flex-row items-center gap-x-2 px-3 py-1 rounded-md border text-sm hover:bg-gray-50 hover:shadow-sm ease-in-out transition-all'
                               onClick={openAccountModal}
                               type='button'
                            >
