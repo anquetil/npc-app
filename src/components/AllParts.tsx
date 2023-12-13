@@ -1,6 +1,5 @@
 'use client'
 
-import { PartType } from '@/types/PartType'
 import PartForPurchase from './PartForPurchase'
 import { useState } from 'react'
 import { useCartStore } from '@/stores/useCartStore'
@@ -23,7 +22,7 @@ export default function AllParts() {
    return (
       <div className='flex flex-col w-full shrink p-4 sm:p-12'>
          <div className='flex flex-row gap-x-4 sm:gap-x-6 mb-4  text-sm sm:text-base w-full px-2'>
-            {categories.map((c, i) => (
+            {categories.map((c) => (
                <div
                   key={c.name} // need a distinct id between tab
                   className={`${

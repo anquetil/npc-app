@@ -4,14 +4,12 @@ import { erc721railsABI } from '@/abis/erc721rails-abis'
 import { deploys } from '@/utils/addresses'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { Address, parseAbi, parseAbiItem, parseEther } from 'viem'
+import { useState } from 'react'
+import { Address } from 'viem'
 import {
    useAccount,
    useContractWrite,
    usePrepareContractWrite,
-   usePrepareSendTransaction,
-   useSendTransaction,
    useWaitForTransaction,
 } from 'wagmi'
 

@@ -5,19 +5,16 @@ import { isAddressEqual } from 'viem'
 import { useAccount } from 'wagmi'
 import AllParts from './AllParts'
 import Cart from './Cart'
-import MintNPCButton from './MintNPCButton'
 import DeployNPCButton from './DeployNPCButton'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import NPCRenderer from './NPCRenderer'
 import { Addreth } from 'addreth'
 
 export default function NPCBlock({ id }: { id: string }) {
    const testNet = process.env.NEXT_PUBLIC_TESTNET == 'TRUE'
    const [refresh, setRefresh] = useState(false) // used to clear cache in parent
-   const { npc, loading } = useGetNPC(id, true, refresh)
+   const { npc } = useGetNPC(id, true, refresh)
    const { address } = useAccount()
-   const router = useRouter()
    console.log('in NPCBLOCK', npc)
    if (npc) {
       const { deployed, owner } = npc

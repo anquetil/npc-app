@@ -1,19 +1,10 @@
 'use client'
 
 import { ERC6551RegistryABI } from '@/abis/erc6551RegistryABI'
-import { erc721railsABI } from '@/abis/erc721rails-abis'
 import { deploys } from '@/utils/addresses'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { Address, parseAbi, parseAbiItem, parseEther } from 'viem'
-import {
-   useAccount,
-   useContractWrite,
-   usePrepareContractWrite,
-   usePrepareSendTransaction,
-   useSendTransaction,
-   useWaitForTransaction,
-} from 'wagmi'
+import { Address } from 'viem'
+import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { CustomConnectButton } from './CustomConnectButton'
 
 export default function DeployNPCButton({

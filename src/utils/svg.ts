@@ -1,8 +1,8 @@
-import { buildSVG } from '@nouns/sdk'
-import { ImageData } from '@nouns/assets'
+import { buildSVG } from '../utils/svgBuilder'
 import { PartType } from '@/types/PartType'
+import ImageData from './image-data.json'
 const { bgcolors, palette, images } = ImageData
-const { bodies, accessories, heads, glasses } = images
+const { bodies, accessories, heads, glasses } = ImageData.images
 
 export function dataTo64SVG(data: string) {
    return `data:image/svg+xml;base64,${btoa(
@@ -494,12 +494,30 @@ function parseTraits(traits: { filename: string; data: string }[]): PartType[] {
 }
 
 export function generateNoun() {
-   const parts = [
+   /*const parts = [
       { data: bodies.find((x) => x.filename == 'body-grayscale-7')!.data },
       { data: accessories.find((x) => x.filename == 'accessory-bling-sparkles')!.data },
       { data: heads.find((x) => x.filename == 'head-crt-bsod')!.data },
       { data: glasses.find((x) => x.filename == 'glasses-square-red')!.data },
+   ]*/
+   // console.log(parts)
+
+   const parts = [
+      {
+         data: '0x0015171f093a0d01000d0d01000d0d01000d0d01000d0d01000d0d01000d0d01000b0d',
+      },
+      {
+         data: '0x0016141d0c01000127060003270100012702000127010001270200012706000327030007270300032706000127070001270300',
+      },
+      {
+         data: '0x00051a15040400120104001201020004010167025b01670a5b0801025b01670b5b08010167025b01670a5b08010e5b08010e5b08010e5b08010e5b020102b104010e5b08010e5b020102b104010e5b08010e5b020102b104010e5b0f01012401010124060102000a0101240101012401010124050104001201',
+      },
+      {
+         data: '0x000b17100703000625010006250300012502020224012501000125020202240525020202240325020202240225020001250202022401250100012502020224022502000125020202240125010001250202022401250300062501000625',
+      },
    ]
+   /*console.log(ImageData.palette.map((v) => {return `"${v}",`}))
+   console.log(ImageData.palette)*/
    return `data:image/svg+xml;base64,${btoa(
       buildSVG(parts, ImageData.palette /*, "ccaa55" OPTIONAL BG */)
    )}`

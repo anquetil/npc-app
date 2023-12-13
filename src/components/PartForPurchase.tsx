@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useCartStore } from '@/stores/useCartStore'
 import { PartType } from '@/types/PartType'
 import { useState } from 'react'
-import { Address, useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { Address, useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { erc1155railsABI } from '@/abis/erc1155railsABI'
 import { deploys } from '@/utils/addresses'
 

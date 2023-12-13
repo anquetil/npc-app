@@ -1,4 +1,3 @@
-import { initializeStore } from '@/utils/svg'
 import { create } from 'zustand'
 
 interface CartState {
