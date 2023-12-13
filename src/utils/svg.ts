@@ -1,7 +1,6 @@
 import { buildSVG } from '../utils/svgBuilder'
 import { PartType } from '@/types/PartType'
 import ImageData from './image-data.json'
-const { bgcolors, palette, images } = ImageData
 const { bodies, accessories, heads, glasses } = ImageData.images
 
 export function dataTo64SVG(data: string) {
@@ -484,6 +483,7 @@ export const filenameToHumanReadable = new Map([
 ])
 
 function parseTraits(traits: { filename: string; data: string }[]): PartType[] {
+   console.log(traits)
    return traits.map((d) => {
       return {
          svg: dataTo64SVG(d.data),
