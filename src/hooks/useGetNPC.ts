@@ -1,28 +1,35 @@
 import { NPC } from '@/types/NPCType'
 import { gql, useQuery } from '@apollo/client'
+import { Address } from 'viem'
 
 export default function useGetNPC(
-   NPCID: string,
+   NPCID: Address,
    enabled: boolean = true,
    ignoreCache: boolean = false
 ) {
-   const query = gql`query NPCQuery {
-      npc(
-            id: ${NPCID}
+   const query = gql`
+   query NPCQuery {
+      nPC(
+         id: "${NPCID}"
       ){
          id
+         tokenID
          owner
          deployed
-         TBAAddress
+         ownedTraits {
+               id
+               tokenID
+               quantity
+               ownerID
+         }
       }
    }`
-
    const { data, loading } = useQuery(query, {
       skip: !enabled,
       fetchPolicy: ignoreCache ? 'no-cache' : undefined,
    })
 
-   const npc: NPC = data ? data.npc : undefined
+   const npc: NPC = data ? data.nPC : undefined
 
    return {
       npc,

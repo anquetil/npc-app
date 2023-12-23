@@ -1,8 +1,11 @@
 import { Address } from 'viem'
+import { OwnedTrait } from './TraitType'
 
 export type NPC = {
-   id: number
+   id: Address
    owner: Address
    deployed: boolean
-   TBAAddress?: Address
+   TBAAddress: Address
+   tokenID: number
+   ownedTraits: OwnedTrait[]
 }

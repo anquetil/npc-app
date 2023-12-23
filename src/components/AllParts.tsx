@@ -3,13 +3,23 @@
 import PartForPurchase from './PartForPurchase'
 import { useState } from 'react'
 import { useCartStore } from '@/stores/useCartStore'
-import { categories } from '@/utils/svg'
+import { categories, dataTo64SVG } from '@/utils/svg'
+import useGetAllTraits from '@/hooks/useGetAllTraits'
+import Image from 'next/image'
+import { NPC } from '@/types/NPCType'
+import { currentChainID } from '@/utils/chainFuncs'
+import { deploys } from '@/utils/addresses'
+import { Address } from 'viem'
+import { useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { erc1155railsABI } from '@/abis/erc1155railsABI'
+import TraitCard from './TraitCard'
 
-export default function AllParts() {
+export default function AllParts({ npc }: { npc: NPC }) {
    const [tab, setTab] = useState<string>('Bodies')
    const activeCategory = categories.filter((c) => c.name == tab)[0]
    const addToCart = useCartStore((state) => state.add)
    const { items } = useCartStore()
+   const { traits } = useGetAllTraits()
 
    const addAllCategory = () => {
       activeCategory.traits.map((t) => {
@@ -21,6 +31,9 @@ export default function AllParts() {
 
    return (
       <div className='flex flex-col w-full shrink mr-4'>
+         <div className='flex flex-row flex-wrap'>
+            {traits && traits.map((t) => <TraitCard trait={t} npc={npc} key={t.name} />)}
+         </div>
          <div className='flex flex-row gap-x-4 sm:gap-x-6 mb-4 w-full pp-sans text-3xl font-bold uppercase'>
             {categories.map((c) => (
                <div

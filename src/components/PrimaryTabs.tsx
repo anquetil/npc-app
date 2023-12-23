@@ -37,7 +37,7 @@ export function PrimaryTabs() {
                My NPC
             </button>
          </div>
-         {storeTabActive ? <AllParts /> : <NPCRenderer id={1} />}
+         {storeTabActive ? <div></div> : <NPCRenderer id={1} />}
       </div>
    )
 }

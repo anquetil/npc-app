@@ -75,15 +75,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
          >
             <Providers>
                <div className='w-screen flex flex-row justify-between items-center px-2'>
-                  <Link href="/" className='flex flex-row items-center active:scale-110 ease-in-out transition-all'>
+                  <Link
+                     href='/'
+                     className='flex flex-row items-center active:scale-110 ease-in-out transition-all'
+                  >
                      <Image src={logo} alt='logo' width={50} height={50} />
                      <div className='pp-sans font-bold text-3xl'>NPC</div>
                   </Link>
                   <div className='flex flex-row gap-x-2 items-center'>
-                     <Link href="/gallery">Gallery (All NPCs) </Link>
-                     <CustomConnectButton/>
-                  </div> 
-
+                     <Link href='/gallery'>Gallery (All NPCs) </Link>
+                     <CustomConnectButton />
+                  </div>
                </div>
                {/*<div className='flex flex-row w-full bg-amber-100 border border-amber-200 justify-between px-12 py-3 items-center'>
                   <div className='text-red-900 text-xl pp-sans'>

@@ -60,7 +60,11 @@ export default function MintNPCButton() {
                className='w-fit pp-sans py-2 px-4 bg-white hover:bg-gray-100 text-blue-800  border border-blue-700 rounded 
                text-2xl font-bold leading-[.75] shadow-[0.75px_2px_0_0_#AAA]  ease-in-out transition-all active:shadow-none active:translate-x-[0.75px] active:translate-y-[2px]'
                onClick={() => {
-                  isConnected ? (chain?.id == chainID ? write?.(): openChainModal?.()) : openConnectModal?.() //if not connected, prompt connect, if wrong chain prompt right chain
+                  isConnected
+                     ? chain?.id == chainID
+                        ? write?.()
+                        : openChainModal?.()
+                     : openConnectModal?.() //if not connected, prompt connect, if wrong chain prompt right chain
                }}
             >
                Mint a Noun PC

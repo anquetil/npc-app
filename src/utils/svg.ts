@@ -483,7 +483,6 @@ export const filenameToHumanReadable = new Map([
 ])
 
 function parseTraits(traits: { filename: string; data: string }[]): PartType[] {
-   console.log(traits)
    return traits.map((d) => {
       return {
          svg: dataTo64SVG(d.data),

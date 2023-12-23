@@ -6,7 +6,7 @@ export default async function NPCPage({ params }: { params: { id: string } }) {
    if (id && id !== '' && !isNaN(Number(id.toString()))) {
       return (
          <main className='flex flex-col items-start w-full'>
-            <NPCBlock id={id} />
+            <NPCBlock tokenID={id} />
          </main>
       )
    } else {

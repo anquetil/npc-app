@@ -20,7 +20,6 @@ export default function NPCRenderer({ id }: { id: number }) {
       encoder.data.palette,
       ImageData.bgcolors[0]
    )
-   console.log(svg)
    const [png, setPng] = useState<string | null>()
 
    useEffect(() => {
