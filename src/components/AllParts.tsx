@@ -31,6 +31,9 @@ export default function AllParts({ npc }: { npc: NPC }) {
 
    return (
       <div className='flex flex-col w-full shrink mr-4'>
+         <div>{npc.ownedTraits.map((ot) => <div key={ot.id}>{`${ot.id}, token: ${ot.tokenID}, qty:${ot.quantity}`}</div>)}</div>
+         <div>{npc.equippedTraits.map((et) => <div key={`boop-${et.toString()}`}>{et.toString()} | </div>)}</div>
+
          <div className='flex flex-row flex-wrap'>
             {traits && traits.map((t) => <TraitCard trait={t} npc={npc} key={t.name} />)}
          </div>

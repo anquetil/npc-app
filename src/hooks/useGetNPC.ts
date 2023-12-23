@@ -22,6 +22,7 @@ export default function useGetNPC(
                quantity
                ownerID
          }
+         equippedTraits
       }
    }`
    const { data, loading } = useQuery(query, {

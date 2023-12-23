@@ -51,9 +51,6 @@ export default function NPCBlock({ tokenID }: { tokenID: string }) {
                         <div className='flex flex-col-reverse sm:flex-row'>
                            <AllParts npc={npc} />
                            <NPCRenderer id={Number(tokenID)} />
-                           <div>
-                              {npc.ownedTraits.map((ot) => <div key={ot.id}>{`${ot.id}, token: ${ot.tokenID}, qty:${ot.quantity}`}</div>)}
-                           </div>
                         </div>
                         <Cart />
                      </div>

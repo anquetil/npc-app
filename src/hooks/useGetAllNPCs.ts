@@ -15,6 +15,7 @@ export default function useGetAllNPCs() {
                quantity
                ownerID
             }
+            equippedTraits
          }
       }
    `

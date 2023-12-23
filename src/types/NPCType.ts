@@ -8,4 +8,5 @@ export type NPC = {
    TBAAddress: Address
    tokenID: number
    ownedTraits: OwnedTrait[]
+   equippedTraits: string[]
 }
