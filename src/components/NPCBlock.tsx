@@ -16,7 +16,9 @@ import { currentChainID, isTestNet } from '@/utils/chainFuncs'
 export default function NPCBlock({ tokenID }: { tokenID: string }) {
    const testNet = isTestNet()
    const [refresh, setRefresh] = useState(false) // used to clear cache in parent
-   const { npc } = useGetNPC(computeAccount(deploys['NPC(721)'],  tokenID, currentChainID(), deploys.erc6551AccountImpl, deploys.erc6551Registry), true, refresh)
+   console.log('refresh: ', refresh)
+   const { npc, refetch } = useGetNPC(computeAccount(deploys['NPC(721)'],  tokenID, currentChainID(), deploys.erc6551AccountImpl, deploys.erc6551Registry), true, refresh)
+   console.log('new npc: ', npc)
    const { address } = useAccount()
    if (npc) {
       const { deployed, owner } = npc
@@ -63,9 +65,7 @@ export default function NPCBlock({ tokenID }: { tokenID: string }) {
                   {`This NPC hasn't been setup yet. If this is yours, turn it on to start buying traits`}
                   <DeployNPCButton
                      tokenID={npc.tokenID}
-                     callback={() => {
-                        setRefresh(true)
-                     }}
+                     refetch={refetch}
                   />
                </div>
             )}

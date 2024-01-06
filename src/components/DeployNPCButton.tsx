@@ -7,13 +7,14 @@ import { Address } from 'viem'
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { CustomConnectButton } from './CustomConnectButton'
 import { currentChainID } from '@/utils/chainFuncs'
+import { ApolloQueryResult, OperationVariables } from '@apollo/client/core/types'
 
 export default function DeployNPCButton({
    tokenID,
-   callback,
+   refetch,
 }: {
    tokenID: number
-   callback: () => void
+   refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>>
 }) {
    const { config: deployConfig } = usePrepareContractWrite({
       chainId: currentChainID(),
@@ -33,7 +34,10 @@ export default function DeployNPCButton({
 
    const { isSuccess: deployedSuccess } = useWaitForTransaction({
       hash: data?.hash,
-      onSuccess: callback, // callback needed to clear cache in useQuery in parent
+      onSuccess: () => {
+         console.log('in onSuccess'); 
+         refetch?.()
+      },
    })
 
    if (deployedSuccess && data) {

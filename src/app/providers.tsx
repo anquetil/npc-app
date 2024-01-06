@@ -12,9 +12,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { isTestNet } from '@/utils/chainFuncs'
 
 const client = new ApolloClient({
-   uri: isTestNet()
+   uri: process.env.NODE_ENV == "production"
       ? process.env.NEXT_PUBLIC_GRAPHQL_API_GOERLI
-      : process.env.NEXT_PUBLIC_GRAPHQL_API_BASE,
+      : "http://localhost:42069",
    cache: new InMemoryCache(),
 })
 

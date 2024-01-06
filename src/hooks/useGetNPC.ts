@@ -25,7 +25,7 @@ export default function useGetNPC(
          equippedTraits
       }
    }`
-   const { data, loading } = useQuery(query, {
+   const { data, loading, refetch } = useQuery(query, {
       skip: !enabled,
       fetchPolicy: ignoreCache ? 'no-cache' : undefined,
    })
@@ -35,5 +35,6 @@ export default function useGetNPC(
    return {
       npc,
       loading,
+      refetch
    }
 }
