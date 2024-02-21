@@ -89,7 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                </div>
                {/*<div className='flex flex-row w-full bg-amber-100 border border-amber-200 justify-between px-12 py-3 items-center'>
                   <div className='text-red-900 text-xl pp-sans'>
-                     Noun Playable Citizens
+                     Noun Playable Characters
                   </div>
                   <div className='flex flex-row gap-x-2 items-center'>
                      <CustomConnectButton />

@@ -1,4 +1,4 @@
-import { Address } from "viem"
+import { Address } from 'viem'
 
 export type Trait = {
    id: string
@@ -7,8 +7,8 @@ export type Trait = {
 }
 
 export type OwnedTrait = {
-   id: string, // TBA address-tokenID
-   tokenID: bigint,
-   quantity: number,
+   id: string // TBA address-tokenID
+   tokenID: bigint
+   quantity: number
    ownerID: Address // TBA address
 }

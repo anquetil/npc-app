@@ -3,10 +3,10 @@
 import useGetAllNPCs from '@/hooks/useGetAllNPCs'
 import Link from 'next/link'
 import BasicENSLabel from './BasicENSLabel'
+import NPCRenderer from './NPCRenderer'
 
 export default function Gallery() {
    const { npcs } = useGetAllNPCs()
-   console.log(npcs)
    if (npcs) {
       const orderedNPCs = [...npcs].sort((a, b) => Number(b.id) - Number(a.id))
       return (
@@ -17,8 +17,7 @@ export default function Gallery() {
                   href={`/npc/${n.tokenID}`}
                   key={n.id}
                >
-                  <div>img</div>
-                  <div>{`NPC #${n.tokenID}`}</div>
+                  <NPCRenderer npc={n} />
                   <div className='text-gray-700 text-sm'>
                      <BasicENSLabel address={n.owner} />
                   </div>

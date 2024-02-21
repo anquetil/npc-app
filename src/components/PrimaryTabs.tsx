@@ -1,6 +1,5 @@
 'use client'
 
-import AllParts from './AllParts'
 import { useState } from 'react'
 import NPCRenderer from './NPCRenderer'
 
@@ -37,7 +36,6 @@ export function PrimaryTabs() {
                My NPC
             </button>
          </div>
-         {storeTabActive ? <div></div> : <NPCRenderer id={1} />}
       </div>
    )
 }

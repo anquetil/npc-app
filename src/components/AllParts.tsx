@@ -3,18 +3,13 @@
 import PartForPurchase from './PartForPurchase'
 import { useState } from 'react'
 import { useCartStore } from '@/stores/useCartStore'
-import { categories, dataTo64SVG } from '@/utils/svg'
+import { categories } from '@/utils/svg'
 import useGetAllTraits from '@/hooks/useGetAllTraits'
-import Image from 'next/image'
 import { NPC } from '@/types/NPCType'
-import { currentChainID } from '@/utils/chainFuncs'
-import { deploys } from '@/utils/addresses'
-import { Address } from 'viem'
-import { useContractWrite, usePrepareContractWrite } from 'wagmi'
-import { erc1155railsABI } from '@/abis/erc1155railsABI'
 import TraitCard from './TraitCard'
+import { refetchFn } from '@/types/RefetchType'
 
-export default function AllParts({ npc }: { npc: NPC }) {
+export default function AllParts({ npc, refetch }: { npc: NPC; refetch: refetchFn }) {
    const [tab, setTab] = useState<string>('Bodies')
    const activeCategory = categories.filter((c) => c.name == tab)[0]
    const addToCart = useCartStore((state) => state.add)
@@ -22,7 +17,7 @@ export default function AllParts({ npc }: { npc: NPC }) {
    const { traits } = useGetAllTraits()
 
    const addAllCategory = () => {
-      activeCategory.traits.map((t) => {
+      activeCategory.traits?.map((t) => {
          const item = items.get(t.name)
          console.log(item)
          if (item == undefined || item == 0) addToCart(t.name)
@@ -31,11 +26,25 @@ export default function AllParts({ npc }: { npc: NPC }) {
 
    return (
       <div className='flex flex-col w-full shrink mr-4'>
-         <div>{npc.ownedTraits.map((ot) => <div key={ot.id}>{`${ot.id}, token: ${ot.tokenID}, qty:${ot.quantity}`}</div>)}</div>
-         <div>{npc.equippedTraits.map((et) => <div key={`boop-${et.toString()}`}>{et.toString()} | </div>)}</div>
+         <div>
+            {npc.ownedTraits?.map((ot) => (
+               <div key={ot.id}>{`token: ${ot.tokenID}, qty owned:${ot.quantity}`}</div>
+            ))}
+         </div>
+         <div className='flex flex-row'>
+            {npc.equippedTraits?.map((et) => (
+               <div key={`boop-${et.toString()}`}>
+                  {et.toString()}
+                  {` | `}
+               </div>
+            ))}
+         </div>
 
-         <div className='flex flex-row flex-wrap'>
-            {traits && traits.map((t) => <TraitCard trait={t} npc={npc} key={t.name} />)}
+         <div className='flex flex-col'>
+            {traits &&
+               traits?.map((t) => (
+                  <TraitCard refetch={refetch} trait={t} npc={npc} key={t.name} />
+               ))}
          </div>
          <div className='flex flex-row gap-x-4 sm:gap-x-6 mb-4 w-full pp-sans text-3xl font-bold uppercase'>
             {categories.map((c) => (
@@ -63,7 +72,7 @@ export default function AllParts({ npc }: { npc: NPC }) {
                .substring(0, 5)} ETH)`}
          </button>
          <div className='flex flex-row flex-wrap max-w-full gap-3'>
-            {activeCategory.traits.map((part) => (
+            {activeCategory.traits?.map((part) => (
                <PartForPurchase key={part.name} part={part} category={tab} />
             ))}
          </div>

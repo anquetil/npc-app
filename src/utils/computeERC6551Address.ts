@@ -1,4 +1,4 @@
-import { concat, encodeAbiParameters, getContractAddress, pad } from "viem"
+import { concat, encodeAbiParameters, getContractAddress, pad } from 'viem'
 
 export function computeAccount(
    tokenContract: string,

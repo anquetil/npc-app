@@ -17,7 +17,7 @@ import {
 const placeholderText = ['Minting your NPC.', 'Minting your NPC..', 'Minting your NPC...']
 
 export default function MintNPCButton() {
-   const chainID = process.env.NEXT_PUBLIC_TESTNET == 'TRUE' ? 5 : 8453
+   const chainID = process.env.NEXT_PUBLIC_TESTNET == 'TRUE' ? 11155111 : 8453
    const { address, isConnected } = useAccount() // assume user is connected if button is shown
    const { chain } = useNetwork()
    const [loadingText, setLoadingText] = useState(0)

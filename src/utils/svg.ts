@@ -1,11 +1,22 @@
 import { buildSVG } from '../utils/svgBuilder'
 import { PartType } from '@/types/PartType'
 import ImageData from './image-data.json'
+import { Trait } from '@/types/TraitType'
 const { bodies, accessories, heads, glasses } = ImageData.images
 
 export function dataTo64SVG(data: string) {
    return `data:image/svg+xml;base64,${btoa(
       buildSVG([{ data }], ImageData.palette /*, "ccaa55" OPTIONAL BG */)
+   )}`
+}
+
+export function rleBytesToNoun(traits: Trait[]) {
+   // renders in order
+   const reformatted = traits?.map((t) => {
+      return { data: t.rleBytes }
+   })
+   return `data:image/svg+xml;base64,${btoa(
+      buildSVG(reformatted, ImageData.palette /*, "ccaa55" OPTIONAL BG */)
    )}`
 }
 

@@ -35,6 +35,6 @@ export default function useGetNPC(
    return {
       npc,
       loading,
-      refetch
+      refetch,
    }
 }

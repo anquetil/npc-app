@@ -2,19 +2,18 @@
 
 import { ERC6551RegistryABI } from '@/abis/erc6551RegistryABI'
 import { deploys } from '@/utils/addresses'
-import { useRouter } from 'next/navigation'
 import { Address } from 'viem'
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { CustomConnectButton } from './CustomConnectButton'
 import { currentChainID } from '@/utils/chainFuncs'
-import { ApolloQueryResult, OperationVariables } from '@apollo/client/core/types'
+import { refetchFn } from '@/types/RefetchType'
 
 export default function DeployNPCButton({
    tokenID,
    refetch,
 }: {
    tokenID: number
-   refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>>
+   refetch: refetchFn
 }) {
    const { config: deployConfig } = usePrepareContractWrite({
       chainId: currentChainID(),
@@ -35,7 +34,6 @@ export default function DeployNPCButton({
    const { isSuccess: deployedSuccess } = useWaitForTransaction({
       hash: data?.hash,
       onSuccess: () => {
-         console.log('in onSuccess'); 
          refetch?.()
       },
    })

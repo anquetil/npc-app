@@ -1,7 +1,7 @@
 'use client'
 
 import useGetNPC from '@/hooks/useGetNPC'
-import { Address, isAddressEqual } from 'viem'
+import { isAddressEqual } from 'viem'
 import { useAccount } from 'wagmi'
 import AllParts from './AllParts'
 import Cart from './Cart'
@@ -12,15 +12,25 @@ import { Addreth } from 'addreth'
 import { computeAccount } from '@/utils/computeERC6551Address'
 import { deploys } from '@/utils/addresses'
 import { currentChainID, isTestNet } from '@/utils/chainFuncs'
+import useGetAllTraits from '@/hooks/useGetAllTraits'
 
 export default function NPCBlock({ tokenID }: { tokenID: string }) {
    const testNet = isTestNet()
    const [refresh, setRefresh] = useState(false) // used to clear cache in parent
-   console.log('refresh: ', refresh)
-   const { npc, refetch } = useGetNPC(computeAccount(deploys['NPC(721)'],  tokenID, currentChainID(), deploys.erc6551AccountImpl, deploys.erc6551Registry), true, refresh)
-   console.log('new npc: ', npc)
+   const { npc, refetch } = useGetNPC(
+      computeAccount(
+         deploys['NPC(721)'],
+         tokenID,
+         currentChainID(),
+         deploys.erc6551AccountImpl,
+         deploys.erc6551Registry
+      ),
+      true,
+      refresh
+   )
+   const { traits } = useGetAllTraits()
    const { address } = useAccount()
-   if (npc) {
+   if (npc && traits) {
       const { deployed, owner } = npc
       const isOwner = address && isAddressEqual(address, owner) // current address is owner
       return (
@@ -38,9 +48,9 @@ export default function NPCBlock({ tokenID }: { tokenID: string }) {
                      badgeGap: 0,
                   }}
                   explorer={(address) => ({
-                     name: testNet ? 'Goerliscan' : 'Basescan',
+                     name: testNet ? 'Sepoliascan' : 'Basescan',
                      accountUrl: testNet
-                        ? `https://goerli.etherscan.io/address/${address}`
+                        ? `https://sepolia.etherscan.io/address/${address}`
                         : `https://basescan.com/address/${address}`,
                   })}
                />
@@ -51,22 +61,19 @@ export default function NPCBlock({ tokenID }: { tokenID: string }) {
                   {true ? (
                      <div>
                         <div className='flex flex-col-reverse sm:flex-row'>
-                           <AllParts npc={npc} />
-                           <NPCRenderer id={Number(tokenID)} />
+                           <AllParts npc={npc} refetch={refetch} />
+                           <NPCRenderer npc={npc} />
                         </div>
                         <Cart />
                      </div>
                   ) : (
-                     <NPCRenderer id={Number(tokenID)} />
+                     <NPCRenderer npc={npc} />
                   )}
                </div>
             ) : (
                <div className='px-6'>
                   {`This NPC hasn't been setup yet. If this is yours, turn it on to start buying traits`}
-                  <DeployNPCButton
-                     tokenID={npc.tokenID}
-                     refetch={refetch}
-                  />
+                  <DeployNPCButton tokenID={npc.tokenID} refetch={refetch} />
                </div>
             )}
          </div>

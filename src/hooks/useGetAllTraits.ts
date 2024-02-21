@@ -1,7 +1,7 @@
 import { Trait } from '@/types/TraitType'
 import { gql, useQuery } from '@apollo/client'
 
-export default function useGetAllNPCs() {
+export default function useGetAllTraits() {
    const query = gql`
       query NPCQuery {
          traits(first: 200) {

@@ -4,23 +4,23 @@ export const tempEquipABI = [
          {
             internalType: 'addresss',
             name: 'owner',
-            type: 'address'
+            type: 'address',
          },
          {
             internalType: 'uint256',
             name: 'tokenId',
-            type: 'uint256'
+            type: 'uint256',
          },
          {
             internalType: 'uint256',
             name: 'preceedingTokenId',
-            type: 'uint256'
-         }
+            type: 'uint256',
+         },
       ],
       name: 'ext_addTokenId',
       outputs: [],
       stateMutability: 'nonpayable',
-      type: 'function'
+      type: 'function',
    },
    {
       constant: false,
@@ -28,17 +28,17 @@ export const tempEquipABI = [
          {
             internalType: 'address',
             name: 'owner',
-            type: 'address'
+            type: 'address',
          },
          {
             internalType: 'uint256',
             name: 'tokenId',
-            type: 'uint256'
-         }
+            type: 'uint256',
+         },
       ],
       name: 'ext_removeTokenId',
       outputs: [],
       stateMutability: 'nonpayable',
-      type: 'function'
+      type: 'function',
    },
-] as const;
+] as const

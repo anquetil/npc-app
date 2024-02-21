@@ -3,5 +3,5 @@ export function isTestNet() {
 }
 
 export function currentChainID() {
-   return isTestNet() ? 5 : 8453
+   return isTestNet() ? 11155111 : 8453
 }

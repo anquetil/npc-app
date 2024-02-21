@@ -1,4 +1,3 @@
-import { CustomConnectButton } from '@/components/CustomConnectButton'
 import HeroComponent from '@/components/HeroComponent'
 
 export default function Home() {

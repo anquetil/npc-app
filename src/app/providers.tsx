@@ -7,24 +7,25 @@ import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
-import { base, goerli } from 'viem/chains'
+import { base, sepolia } from 'viem/chains'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { isTestNet } from '@/utils/chainFuncs'
 
 const client = new ApolloClient({
-   uri: process.env.NODE_ENV == "production"
-      ? process.env.NEXT_PUBLIC_GRAPHQL_API_GOERLI
-      : "http://localhost:42069",
+   uri:
+      process.env.NODE_ENV == 'development'
+         ? process.env.NEXT_PUBLIC_GRAPHQL_API_SEPOLIA
+         : 'https://npc-graph-ponder-production.up.railway.app/', //"http://localhost:42069",
    cache: new InMemoryCache(),
 })
 
 const { chains, publicClient } = configureChains(
-   [isTestNet() ? goerli : base],
+   [isTestNet() ? sepolia : base],
    [
       alchemyProvider({
          apiKey:
             (isTestNet()
-               ? process.env.NEXT_PUBLIC_ALCHEMY_KEY_GOERLI
+               ? process.env.NEXT_PUBLIC_ALCHEMY_KEY_SEPOLIA
                : process.env.NEXT_PUBLIC_ALCHEMY_ID_BASE) ?? '',
       }),
       publicProvider(),

@@ -5,7 +5,7 @@ export default function useGetAllNPCs() {
    const query = gql`
       query NPCQuery {
          nPCs(first: 100) {
-            id            
+            id
             tokenID
             owner
             deployed

@@ -55,7 +55,7 @@ export const CustomConnectButton = () => {
                               onClick={openChainModal}
                               type='button'
                            >
-                              Switch to {isTestNet() ? 'Goerli' : 'Base'}
+                              Switch to {isTestNet() ? 'Sepolia' : 'Base'}
                            </button>
                         )
                      }
