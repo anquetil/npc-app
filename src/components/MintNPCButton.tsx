@@ -5,7 +5,7 @@ import { deploys } from '@/utils/addresses'
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { Address } from 'viem'
+import { Address, parseAbi } from 'viem'
 import {
    useAccount,
    useContractWrite,
@@ -32,6 +32,16 @@ export default function MintNPCButton() {
       functionName: 'mintTo',
       args: [address!, 1n],
    })
+
+   /*const { config: mintConfig } = usePrepareContractWrite({
+      chainId: chainID,
+      address: '0x64842EA5feE416B3f3eB2A8787eCa3462dE3C8a1',
+      abi: parseAbi(['function mint(address collection, uint256 tokenId) external payable']),
+      functionName: 'mint',
+      args: ['0x8F071320A60E4Aac7dA5FBA5F201F9bcc66f86e9', 2n],
+   })*/
+
+
 
    const {
       write,

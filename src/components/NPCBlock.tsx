@@ -4,7 +4,6 @@ import useGetNPC from '@/hooks/useGetNPC'
 import { isAddressEqual } from 'viem'
 import { useAccount } from 'wagmi'
 import AllParts from './AllParts'
-import Cart from './Cart'
 import DeployNPCButton from './DeployNPCButton'
 import { useState } from 'react'
 import NPCRenderer from './NPCRenderer'
@@ -28,6 +27,14 @@ export default function NPCBlock({ tokenID }: { tokenID: string }) {
       true,
       refresh
    )
+   console.log(computeAccount(
+      deploys['NPC(721)'],
+      tokenID,
+      currentChainID(),
+      deploys.erc6551AccountImpl,
+      deploys.erc6551Registry
+   ))
+   console.log('here', npc)
    const { traits } = useGetAllTraits()
    const { address } = useAccount()
    if (npc && traits) {
@@ -64,7 +71,6 @@ export default function NPCBlock({ tokenID }: { tokenID: string }) {
                            <AllParts npc={npc} refetch={refetch} />
                            <NPCRenderer npc={npc} />
                         </div>
-                        <Cart />
                      </div>
                   ) : (
                      <NPCRenderer npc={npc} />

@@ -87,45 +87,50 @@ export default function TraitCard({
    })
 
    return (
-      <div className='m-1 flex flex-row items-center '>
+      <div className='m-1 flex flex-col items-center border rounded p-2 w-56'>
          <div>
-            ID #{trait.id} - {trait.name}
+            #{trait.id} - {trait.name}
          </div>
          <Image
+            className='bg-blue-50'
             width={80}
             height={80}
             alt={trait.name}
             src={dataTo64SVG(trait.rleBytes)}
          />
-         <div>Owns {quantityOwned}</div>
-         <button
-            onClick={() => {
-               mint?.()
-            }}
-            className='px-2 py-1 h-fit mr-2 border bg-white hover:bg-gray-50'
-         >
-            Mint
-         </button>
-         {quantityOwned > 0 && (
+         <div>{quantityOwned} owned</div>
+
+         <div className='flex flex-row space-x-2'>
             <button
-               className='px-2 py-1 h-fit border bg-white hover:bg-gray-50'
                onClick={() => {
-                  equip?.()
+                  mint?.()
                }}
+               className='px-2 py-1 h-fit mr-2 border rounded bg-white hover:bg-gray-100'
             >
-               Equip
+               Mint
             </button>
-         )}
-         {isEquipped && (
-            <button
-               className='px-2 py-1 h-fit border bg-white hover:bg-gray-50'
-               onClick={() => {
-                  unequip?.()
-               }}
-            >
-               Unequip
-            </button>
-         )}
+            {quantityOwned > 0 && !isEquipped && (
+               <button
+                  className='px-2 py-1 h-fit border bg-white hover:bg-gray-50'
+                  onClick={() => {
+                     equip?.()
+                  }}
+               >
+                  Equip
+               </button>
+            )}
+            {isEquipped && (
+               <button
+                  className='px-2 py-1 h-fit border bg-white hover:bg-gray-50'
+                  onClick={() => {
+                     unequip?.()
+                  }}
+               >
+                  Unequip
+               </button>
+            )}
+         </div>
+
          <div>{(sentTransaction || sentTransactionEquip || sentTransactionUnequip) && <div>Loading..</div>}</div>
       </div>
    )

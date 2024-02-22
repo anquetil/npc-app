@@ -16,5 +16,6 @@ export const deploys =
    railsTokenFactory: "0x2C333bd1316cE1aF9EBF017a595D6f8AB5f6BD1A" as Address,
    erc6551Registry: "0x000000006551c19487814612e58FE06813775758" as Address,
    erc6551AccountProxy: "0x55266d75D1a14E4572138116aF39863Ed6596E7F" as Address,
-   erc6551AccountImpl: "0x41C8f39463A868d3A88af00cd0fe7102F30E44eC" as Address
+   erc6551AccountImpl: "0x41C8f39463A868d3A88af00cd0fe7102F30E44eC" as Address,
+   mintModule: "0xC1A5fA81B1C0768c73242e6891e3032C360B8821" as Address
 }
