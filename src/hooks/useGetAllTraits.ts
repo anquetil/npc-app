@@ -8,6 +8,7 @@ export default function useGetAllTraits() {
             id
             name
             rleBytes
+            svg
          }
       }
    `

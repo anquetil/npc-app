@@ -12,7 +12,7 @@ export default function DeployNPCButton({
    tokenID,
    refetch,
 }: {
-   tokenID: number
+   tokenID: string
    refetch: refetchFn
 }) {
    const { config: deployConfig } = usePrepareContractWrite({
@@ -46,7 +46,7 @@ export default function DeployNPCButton({
       return (
          <div>
             <button
-               className='w-fit pp-sans py-2 px-4 bg-white hover:bg-gray-100 text-blue-800  border border-blue-500 rounded 
+               className='w-fit pp-sans py-2 px-4 bg-white hover:bg-gray-100 text-blue-800  border border-blue-500 rounded
                text-2xl font-bold leading-[.75] shadow-[0.75px_2px_0_0_#AAA]  ease-in-out transition-all active:shadow-none active:translate-x-[0.75px] active:translate-y-[2px]'
                onClick={() => {
                   write?.()

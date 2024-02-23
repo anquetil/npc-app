@@ -1,11 +1,11 @@
 'use client'
 
-import { erc721railsABI } from '@/abis/erc721rails-abis'
+import { freeMintControllerABI } from '@/abis/freeMintControllerABI'
 import { deploys } from '@/utils/addresses'
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { Address, parseAbi } from 'viem'
+import { Address } from 'viem'
 import {
    useAccount,
    useContractWrite,
@@ -17,7 +17,7 @@ import {
 const placeholderText = ['Minting your NPC.', 'Minting your NPC..', 'Minting your NPC...']
 
 export default function MintNPCButton() {
-   const chainID = process.env.NEXT_PUBLIC_TESTNET == 'TRUE' ? 11155111 : 8453
+   const chainID = process.env.NEXT_PUBLIC_TESTNET ? 11155111 : 8453
    const { address, isConnected } = useAccount() // assume user is connected if button is shown
    const { chain } = useNetwork()
    const [loadingText, setLoadingText] = useState(0)
@@ -27,21 +27,17 @@ export default function MintNPCButton() {
 
    const { config: mintConfig } = usePrepareContractWrite({
       chainId: chainID,
-      address: deploys['NPC(721)'] as Address,
-      abi: erc721railsABI,
-      functionName: 'mintTo',
-      args: [address!, 1n],
+      address: deploys['freeMintController'] as Address,
+      abi: freeMintControllerABI,
+      functionName: 'mint721',
+      // need to pay 0.001 ETH as fee.
+      // Todo: replace with parseETH so it's easier to read
+      // I don't love reading wei values
+      value: 1000000000000000n,
+      // args:
+      // collectionAddress: Address (NPC 721 Address)
+      args: [deploys['NPC(721)'],
    })
-
-   /*const { config: mintConfig } = usePrepareContractWrite({
-      chainId: chainID,
-      address: '0x64842EA5feE416B3f3eB2A8787eCa3462dE3C8a1',
-      abi: parseAbi(['function mint(address collection, uint256 tokenId) external payable']),
-      functionName: 'mint',
-      args: ['0x8F071320A60E4Aac7dA5FBA5F201F9bcc66f86e9', 2n],
-   })*/
-
-
 
    const {
       write,
@@ -67,7 +63,7 @@ export default function MintNPCButton() {
       return (
          <div>
             <button
-               className='w-fit pp-sans py-2 px-4 bg-white hover:bg-gray-100 text-blue-800  border border-blue-700 rounded 
+               className='w-fit pp-sans py-2 px-4 bg-white hover:bg-gray-100 text-blue-800  border border-blue-700 rounded
                text-2xl font-bold leading-[.75] shadow-[0.75px_2px_0_0_#AAA]  ease-in-out transition-all active:shadow-none active:translate-x-[0.75px] active:translate-y-[2px]'
                onClick={() => {
                   isConnected
