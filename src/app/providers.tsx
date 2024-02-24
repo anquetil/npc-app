@@ -11,11 +11,10 @@ import { base, sepolia } from 'viem/chains'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { isTestNet } from '@/utils/chainFuncs'
 
+// Todo: add to vercel env as 'NEXT_PUBLIC_GRAPHQL_API'
+// https://npc-graph-ponder-production.up.railway.app/
 const client = new ApolloClient({
-   uri:
-      process.env.NODE_ENV == 'development'
-         ? process.env.NEXT_PUBLIC_GRAPHQL_API_SEPOLIA
-         : 'https://npc-graph-ponder-production.up.railway.app/', //"http://localhost:42069",
+   uri: process.env.NEXT_PUBLIC_GRAPHQL_API,
    cache: new InMemoryCache(),
 })
 
@@ -23,10 +22,7 @@ const { chains, publicClient } = configureChains(
    [isTestNet() ? sepolia : base],
    [
       alchemyProvider({
-         apiKey:
-            (isTestNet()
-               ? process.env.NEXT_PUBLIC_ALCHEMY_KEY_SEPOLIA
-               : process.env.NEXT_PUBLIC_ALCHEMY_ID_BASE) ?? '',
+         apiKey: process.env.NEXT_PUBLIC_ALCHEMY_KEY!,
       }),
       publicProvider(),
    ]

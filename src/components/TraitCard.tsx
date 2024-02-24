@@ -35,7 +35,11 @@ export default function TraitCard({
       functionName: 'mintTo',
       args: [npc.id, BigInt(trait.id), 1n], //TBAaddress , tokenID, value (qty)
    })
-   const { write: mint, data: mintData, isLoading: sentTransaction } = useContractWrite(mintConfig)
+   const {
+      write: mint,
+      data: mintData,
+      isLoading: sentTransaction,
+   } = useContractWrite(mintConfig)
 
    const { config: equipConfig } = usePrepareContractWrite({
       chainId: currentChainID(),
@@ -131,7 +135,11 @@ export default function TraitCard({
             )}
          </div>
 
-         <div>{(sentTransaction || sentTransactionEquip || sentTransactionUnequip) && <div>Loading..</div>}</div>
+         <div>
+            {(sentTransaction || sentTransactionEquip || sentTransactionUnequip) && (
+               <div>Loading..</div>
+            )}
+         </div>
       </div>
    )
 }
