@@ -13,9 +13,9 @@ import { isTestNet } from '@/utils/chainFuncs'
 
 const client = new ApolloClient({
    uri:
-      process.env.NEXT_PUBLIC_LOCAL == 'TRUE'
+      process.env.NEXT_PUBLIC_LOCAL
          ? 'http://localhost:42069'
-         : process.env.NEXT_PUBLIC_GRAPHL_API_SEPOLIA,
+         : process.env.NEXT_PUBLIC_GRAPHQL_API_SEPOLIA,
    cache: new InMemoryCache(),
 })
 
@@ -45,6 +45,7 @@ export const wagmiConfig = createConfig({
 })
 
 export function Providers({ children }: { children: React.ReactNode }) {
+   console.log(process.env.NEXT_PUBLIC_LOCAL == 'TRUE')
    const [mounted, setMounted] = React.useState(false)
    React.useEffect(() => setMounted(true), [])
    return (

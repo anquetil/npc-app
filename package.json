@@ -4,7 +4,7 @@
    "private": true,
    "scripts": {
       "dev": "next dev",
-      "local-dev": "NEXT_PUBLIC_LOCAL=TRUE next dev",
+      "local-dev": "NEXT_PUBLIC_LOCAL=true next dev",
       "build": "npx prettier . --write && next build",
       "start": "next start",
       "lint": "npx prettier . --write && next lint"
