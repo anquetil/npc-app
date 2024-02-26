@@ -7,7 +7,6 @@ import NPCRenderer from './NPCRenderer'
 
 export default function Gallery() {
    const { npcs } = useGetAllNPCs()
-   console.log(npcs)
    if (npcs) {
       const orderedNPCs = [...npcs].sort((a, b) => Number(b.id) - Number(a.id))
       return (

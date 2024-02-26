@@ -32,8 +32,6 @@ export default function useGetNPC(
    })
 
    const npc: NPC = data ? data.nPC : undefined
-   console.log('in getNPC, got: ', npc)
-
    return {
       npc,
       loading,

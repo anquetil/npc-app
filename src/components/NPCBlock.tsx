@@ -1,8 +1,8 @@
 'use client'
 
 import useGetNPC from '@/hooks/useGetNPC'
-import { Address, isAddressEqual, parseAbi } from 'viem'
-import { useAccount, useContractRead } from 'wagmi'
+import { isAddressEqual } from 'viem'
+import { useAccount } from 'wagmi'
 import AllParts from './AllParts'
 import DeployNPCButton from './DeployNPCButton'
 import { useState } from 'react'
@@ -27,17 +27,6 @@ export default function NPCBlock({ tokenID }: { tokenID: string }) {
       true,
       refresh
    )
-
-   const { data } = useContractRead({
-      chainId: currentChainID(),
-      address: deploys['Trait(1155)'] as Address,
-      abi: parseAbi([
-         'function ext_getEquippedTokenIds(address owner) public view returns (uint256[] memory)',
-      ]),
-      functionName: 'ext_getEquippedTokenIds',
-      args: [npc?.id],
-      enabled: npc != undefined,
-   })
 
    const { traits } = useGetAllTraits()
    const { address } = useAccount()

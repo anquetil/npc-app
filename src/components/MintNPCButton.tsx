@@ -2,63 +2,62 @@
 
 import { erc721railsABI } from '@/abis/erc721rails-abis'
 import { freeMintControllerABI } from '@/abis/freeMintControllerABI'
+import { TransactionStatus } from '@/types/TransactionStatusType'
 import { deploys } from '@/utils/addresses'
 import { currentChainID } from '@/utils/chainFuncs'
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Address } from 'viem'
 import {
    useAccount,
-   useContractWrite,
-   useNetwork,
-   usePrepareContractWrite,
-   useWaitForTransaction,
+   useChainId,
+   useTransactionReceipt,
+   useWaitForTransactionReceipt,
+   useWriteContract,
 } from 'wagmi'
 
 const placeholderText = ['Minting your NPC.', 'Minting your NPC..', 'Minting your NPC...']
 
 export default function MintNPCButton() {
-   const chainID = currentChainID()
-   const { address, isConnected } = useAccount() // assume user is connected if button is shown
-   const { chain } = useNetwork()
+   const targetChainID = currentChainID()
+   const { isConnected } = useAccount() // assume user is connected if button is shown
+   const connectedChainID = useChainId()
    const [loadingText, setLoadingText] = useState(0)
    const router = useRouter()
    const { openConnectModal } = useConnectModal()
    const { openChainModal } = useChainModal()
-
-   const { config: mintConfig } = usePrepareContractWrite({
-      chainId: chainID,
-      address: deploys.freeMintController as Address,
-      abi: freeMintControllerABI,
-      functionName: 'mint721',
-      // need to pay 0.001 ETH as fee.
-      // Todo: replace with parseETH so it's easier to read
-      // I don't love reading wei values
-      value: 1000000000000000n,
-      args: [deploys['NPC(721)']],
+   
+   const { writeContract, status, data } = useWriteContract()
+   const { data: result } = useWaitForTransactionReceipt({
+      hash: data,
    })
 
-   const {
-      write,
-      data,
-      isSuccess: sentTransaction,
-      isError,
-      error,
-   } = useContractWrite(mintConfig)
+   const txnState: TransactionStatus =
+      status == 'idle'
+         ? 'IDLE'
+         : status == 'pending'
+            ? 'PREPARED'
+            : result
+               ? 'CONFIRMED'
+               : 'SENT'
 
-   const { isSuccess: mintSuccess } = useWaitForTransaction({
-      hash: data?.hash,
-      onSuccess: (data) => {
-         const tokenId = parseInt(data.logs[1].topics[3] as string, 16)
+   console.log('state: ', txnState)
+
+   useEffect(() => {
+      console.log('in use effect')
+      if (txnState == 'CONFIRMED') {
+         const tokenId = parseInt(result!.logs[1].topics[3] as string, 16)
          // Is there a way to get this data more reliably?
          router.push(`/npc/${tokenId}`)
-      },
-   })
+      }
+   }, [result, txnState, router])
 
-   if (mintSuccess && data) {
-      return <div>Minted! {data.hash}</div>
-   } else if (sentTransaction) {
+
+
+   if (txnState == 'CONFIRMED' && data) {
+      return <div>Minted! {data}</div>
+   } else if (txnState == 'SENT') {
       return <div>{placeholderText[loadingText]}</div>
    } else {
       return (
@@ -68,8 +67,18 @@ export default function MintNPCButton() {
                text-2xl font-bold leading-[.75] shadow-[0.75px_2px_0_0_#AAA]  ease-in-out transition-all active:shadow-none active:translate-x-[0.75px] active:translate-y-[2px]'
                onClick={() => {
                   isConnected
-                     ? chain?.id == chainID
-                        ? write?.()
+                     ? connectedChainID == targetChainID
+                        ? writeContract({
+                              chainId: targetChainID,
+                              address: deploys.freeMintController as Address,
+                              abi: freeMintControllerABI,
+                              functionName: 'mint721',
+                              // need to pay 0.001 ETH as fee.
+                              // Todo: replace with parseETH so it's easier to read
+                              // I don't love reading wei values
+                              value: 1000000000000000n,
+                              args: [deploys['NPC(721)']],
+                           })
                         : openChainModal?.()
                      : openConnectModal?.() //if not connected, prompt connect, if wrong chain prompt right chain
                }}
