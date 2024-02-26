@@ -1,8 +1,8 @@
 'use client'
 
 import useGetNPC from '@/hooks/useGetNPC'
-import { isAddressEqual } from 'viem'
-import { useAccount } from 'wagmi'
+import { Address, isAddressEqual, parseAbi } from 'viem'
+import { useAccount, useContractRead } from 'wagmi'
 import AllParts from './AllParts'
 import DeployNPCButton from './DeployNPCButton'
 import { useState } from 'react'
@@ -27,21 +27,25 @@ export default function NPCBlock({ tokenID }: { tokenID: string }) {
       true,
       refresh
    )
-   console.log(computeAccount(
-      deploys['NPC(721)'],
-      tokenID,
-      currentChainID(),
-      deploys.erc6551AccountImpl,
-      deploys.erc6551Registry
-   ))
-   console.log('here', npc)
+
+   const { data } = useContractRead({
+      chainId: currentChainID(),
+      address: deploys['Trait(1155)'] as Address,
+      abi: parseAbi([
+         'function ext_getEquippedTokenIds(address owner) public view returns (uint256[] memory)',
+      ]),
+      functionName: 'ext_getEquippedTokenIds',
+      args: [npc?.id],
+      enabled: npc != undefined,
+   })
+
    const { traits } = useGetAllTraits()
    const { address } = useAccount()
    if (npc && traits) {
       const { deployed, owner } = npc
       const isOwner = address && isAddressEqual(address, owner) // current address is owner
       return (
-         <div className='bg-white'>
+         <div className='bg-white w-full'>
             <div className='pp-sans text-6xl text-gray-800 bg-gray-100 px-6 -mb-2 mt-1'>{`Noun PC #${tokenID}`}</div>
             <div className='text-gray-700 bg-gray-100 pb-3 mb-3 px-6'>
                {`Owner: `}
@@ -61,11 +65,11 @@ export default function NPCBlock({ tokenID }: { tokenID: string }) {
                         : `https://basescan.com/address/${address}`,
                   })}
                />
-               {deployed && <div>{npc.TBAAddress}</div>}
+               {deployed && <div>{npc.id}</div>}
             </div>
             {deployed ? (
                <div className='px-6'>
-                  {true ? (
+                  {isOwner ? (
                      <div>
                         <div className='flex flex-col-reverse sm:flex-row'>
                            <AllParts npc={npc} refetch={refetch} />

@@ -1,5 +1,5 @@
 export function isTestNet() {
-   return process.env.NEXT_PUBLIC_TESTNET == 'TRUE'
+   return process.env.NEXT_PUBLIC_TESTNET
 }
 
 export function currentChainID() {

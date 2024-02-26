@@ -8,14 +8,14 @@ import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 import { base, sepolia } from 'viem/chains'
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/client'
 import { isTestNet } from '@/utils/chainFuncs'
 
 const client = new ApolloClient({
    uri:
-      process.env.NODE_ENV == 'development'
-         ? process.env.NEXT_PUBLIC_GRAPHQL_API_SEPOLIA
-         : 'https://npc-graph-ponder-production.up.railway.app/', //"http://localhost:42069",
+      process.env.NEXT_PUBLIC_LOCAL == 'TRUE'
+         ? 'http://localhost:42069'
+         : process.env.NEXT_PUBLIC_GRAPHL_API_SEPOLIA,
    cache: new InMemoryCache(),
 })
 

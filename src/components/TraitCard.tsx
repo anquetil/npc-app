@@ -6,10 +6,11 @@ import { refetchFn } from '@/types/RefetchType'
 import { Trait } from '@/types/TraitType'
 import { deploys } from '@/utils/addresses'
 import { currentChainID } from '@/utils/chainFuncs'
-import { dataTo64SVG } from '@/utils/svg'
 import Image from 'next/image'
+import { parseAbi } from 'viem'
 import {
    Address,
+   useContractRead,
    useContractWrite,
    usePrepareContractWrite,
    useWaitForTransaction,
@@ -35,7 +36,11 @@ export default function TraitCard({
       functionName: 'mintTo',
       args: [npc.id, BigInt(trait.id), 1n], //TBAaddress , tokenID, value (qty)
    })
-   const { write: mint, data: mintData, isLoading: sentTransaction } = useContractWrite(mintConfig)
+   const {
+      write: mint,
+      data: mintData,
+      isLoading: sentTransaction,
+   } = useContractWrite(mintConfig)
 
    const { config: equipConfig } = usePrepareContractWrite({
       chainId: currentChainID(),
@@ -45,6 +50,7 @@ export default function TraitCard({
       args: [npc.id, BigInt(trait.id), 0n], //TBAaddress , tokenID, position
       enabled: quantityOwned > 0 && !isEquipped,
    })
+
    const {
       write: equip,
       data: equipData,
@@ -68,6 +74,7 @@ export default function TraitCard({
    const equipWait = useWaitForTransaction({
       hash: equipData?.hash,
       onSuccess: () => {
+         console.log('equipped! refetching..')
          refetch?.()
       },
    })
@@ -75,6 +82,7 @@ export default function TraitCard({
    const unequipWait = useWaitForTransaction({
       hash: unequipData?.hash,
       onSuccess: () => {
+         console.log('unequipped! refetching..')
          refetch?.()
       },
    })
@@ -82,6 +90,7 @@ export default function TraitCard({
    const mintWait = useWaitForTransaction({
       hash: mintData?.hash,
       onSuccess: () => {
+         console.log('minted! refetching..')
          refetch?.()
       },
    })
@@ -92,11 +101,11 @@ export default function TraitCard({
             #{trait.id} - {trait.name}
          </div>
          <Image
-            className='bg-blue-50'
+            className='bg-white fill-white'
             width={80}
             height={80}
             alt={trait.name}
-            src={dataTo64SVG(trait.rleBytes)}
+            src={`data:image/svg+xml;base64,${trait.svg}`}
          />
          <div>{quantityOwned} owned</div>
 
@@ -131,7 +140,11 @@ export default function TraitCard({
             )}
          </div>
 
-         <div>{(sentTransaction || sentTransactionEquip || sentTransactionUnequip) && <div>Loading..</div>}</div>
+         <div>
+            {(sentTransaction || sentTransactionEquip || sentTransactionUnequip) && (
+               <div>Loading..</div>
+            )}
+         </div>
       </div>
    )
 }

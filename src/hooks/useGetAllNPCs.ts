@@ -16,6 +16,7 @@ export default function useGetAllNPCs() {
                ownerID
             }
             equippedTraits
+            fullSVG
          }
       }
    `

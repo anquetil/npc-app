@@ -1,5 +1,3 @@
-// import NPCRenderer from '@/components/NPCRenderer'
-
 import Gallery from '@/components/Gallery'
 
 export default function testPage() {

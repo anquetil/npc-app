@@ -1,9 +1,6 @@
 'use client'
 
-import PartForPurchase from './PartForPurchase'
 import { useState } from 'react'
-import { useCartStore } from '@/stores/useCartStore'
-import { categories } from '@/utils/svg'
 import useGetAllTraits from '@/hooks/useGetAllTraits'
 import { NPC } from '@/types/NPCType'
 import TraitCard from './TraitCard'
@@ -11,17 +8,8 @@ import { refetchFn } from '@/types/RefetchType'
 
 export default function AllParts({ npc, refetch }: { npc: NPC; refetch: refetchFn }) {
    const [tab, setTab] = useState<string>('Bodies')
-   const activeCategory = categories.filter((c) => c.name == tab)[0]
-   const addToCart = useCartStore((state) => state.add)
-   const { items } = useCartStore()
+   const activeCategory = ['Accessories', 'Glasses', 'Heads', 'Bodies', 'Backgrounds']
    const { traits } = useGetAllTraits()
-
-   const addAllCategory = () => {
-      activeCategory.traits?.map((t) => {
-         const item = items.get(t.name)
-         if (item == undefined || item == 0) addToCart(t.name)
-      })
-   }
 
    return (
       <div className='flex flex-col w-full shrink mr-4 pb-4'>
@@ -37,18 +25,16 @@ export default function AllParts({ npc, refetch }: { npc: NPC; refetch: refetchF
                   {` | `}
                </div>
             ))}
-            </div> */
-         }
+            </div> */}
 
          <div className='flex flex-row flex-wrap'>
             {traits &&
                traits?.map((t) => (
-                  <TraitCard refetch={refetch} trait={t} npc={npc} key={t.name} />
+                  <TraitCard refetch={refetch} trait={t} npc={npc} key={t.id} />
                ))}
          </div>
 
-         {
-            /* OLD SET UP
+         {/* OLD SET UP
          
             <div className='flex flex-row gap-x-4 sm:gap-x-6 mb-4 w-full pp-sans text-3xl font-bold uppercase'>
                {categories.map((c) => (
@@ -80,8 +66,7 @@ export default function AllParts({ npc, refetch }: { npc: NPC; refetch: refetchF
                   <PartForPurchase key={part.name} part={part} category={tab} />
                ))}
             </div>
-            */
-         }
+            */}
       </div>
    )
 }

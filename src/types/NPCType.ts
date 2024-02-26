@@ -5,8 +5,8 @@ export type NPC = {
    id: Address
    owner: Address
    deployed: boolean
-   TBAAddress: Address
    tokenID: number
    ownedTraits: OwnedTrait[]
    equippedTraits: string[]
+   fullSVG: string
 }

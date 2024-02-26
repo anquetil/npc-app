@@ -23,6 +23,7 @@ export default function useGetNPC(
                ownerID
          }
          equippedTraits
+         fullSVG
       }
    }`
    const { data, loading, refetch } = useQuery(query, {
@@ -31,6 +32,7 @@ export default function useGetNPC(
    })
 
    const npc: NPC = data ? data.nPC : undefined
+   console.log('in getNPC, got: ', npc)
 
    return {
       npc,
