@@ -27,7 +27,7 @@ export default function MintNPCButton() {
    const router = useRouter()
    const { openConnectModal } = useConnectModal()
    const { openChainModal } = useChainModal()
-   
+
    const { writeContract, status, data } = useWriteContract()
    const { data: result } = useWaitForTransactionReceipt({
       hash: data,
@@ -37,23 +37,17 @@ export default function MintNPCButton() {
       status == 'idle'
          ? 'IDLE'
          : status == 'pending'
-            ? 'PREPARED'
-            : result
-               ? 'CONFIRMED'
-               : 'SENT'
+         ? 'PREPARED'
+         : result
+         ? 'CONFIRMED'
+         : 'SENT'
 
    console.log('state: ', txnState)
-
-   useEffect(() => {
-      console.log('in use effect')
-      if (txnState == 'CONFIRMED') {
-         const tokenId = parseInt(result!.logs[1].topics[3] as string, 16)
-         // Is there a way to get this data more reliably?
-         router.push(`/npc/${tokenId}`)
-      }
-   }, [result, txnState, router])
-
-
+   if (txnState == 'CONFIRMED') {
+      const tokenId = parseInt(result!.logs[1].topics[3] as string, 16)
+      // Is there a way to get this data more reliably?
+      router.push(`/npc/${tokenId}`)
+   }
 
    if (txnState == 'CONFIRMED' && data) {
       return <div>Minted! {data}</div>
@@ -69,16 +63,16 @@ export default function MintNPCButton() {
                   isConnected
                      ? connectedChainID == targetChainID
                         ? writeContract({
-                              chainId: targetChainID,
-                              address: deploys.freeMintController as Address,
-                              abi: freeMintControllerABI,
-                              functionName: 'mint721',
-                              // need to pay 0.001 ETH as fee.
-                              // Todo: replace with parseETH so it's easier to read
-                              // I don't love reading wei values
-                              value: 1000000000000000n,
-                              args: [deploys['NPC(721)']],
-                           })
+                             chainId: targetChainID,
+                             address: deploys.freeMintController as Address,
+                             abi: freeMintControllerABI,
+                             functionName: 'mint721',
+                             // need to pay 0.001 ETH as fee.
+                             // Todo: replace with parseETH so it's easier to read
+                             // I don't love reading wei values
+                             value: 1000000000000000n,
+                             args: [deploys['NPC(721)']],
+                          })
                         : openChainModal?.()
                      : openConnectModal?.() //if not connected, prompt connect, if wrong chain prompt right chain
                }}

@@ -1,19 +1,20 @@
 'use client'
 import { erc1155railsABI } from '@/abis/erc1155railsABI'
+import { freeMintControllerABI } from '@/abis/freeMintControllerABI'
 import { tempEquipABI } from '@/abis/tempEquipABI'
 import { NPC } from '@/types/NPCType'
 import { refetchFn } from '@/types/RefetchType'
 import { Trait } from '@/types/TraitType'
+import { TransactionStatus } from '@/types/TransactionStatusType'
 import { deploys } from '@/utils/addresses'
 import { currentChainID } from '@/utils/chainFuncs'
 import Image from 'next/image'
-import { parseAbi } from 'viem'
+import { Address, parseEther } from 'viem'
 import {
-   Address,
-   useContractRead,
-   useContractWrite,
-   usePrepareContractWrite,
-   useWaitForTransaction,
+   usePrepareTransactionRequest,
+   useSimulateContract,
+   useWaitForTransactionReceipt,
+   useWriteContract,
 } from 'wagmi'
 
 export default function TraitCard({
@@ -29,70 +30,79 @@ export default function TraitCard({
    const quantityOwned = ownedTrait ? ownedTrait.quantity : 0
    const isEquipped = npc.equippedTraits?.includes(trait.id)
 
-   const { config: mintConfig } = usePrepareContractWrite({
-      chainId: currentChainID(),
-      address: deploys['Trait(1155)'] as Address,
-      abi: erc1155railsABI,
-      functionName: 'mintTo',
-      args: [npc.id, BigInt(trait.id), 1n], //TBAaddress , tokenID, value (qty)
-   })
+   // MINT
    const {
-      write: mint,
-      data: mintData,
-      isLoading: sentTransaction,
-   } = useContractWrite(mintConfig)
-
-   const { config: equipConfig } = usePrepareContractWrite({
-      chainId: currentChainID(),
-      address: deploys['Trait(1155)'] as Address,
-      abi: tempEquipABI,
-      functionName: 'ext_addTokenId',
-      args: [npc.id, BigInt(trait.id), 0n], //TBAaddress , tokenID, position
-      enabled: quantityOwned > 0 && !isEquipped,
+      writeContract: writeMint,
+      status: statusMint,
+      data: hashMint,
+   } = useWriteContract()
+   const { data: resultMint } = useWaitForTransactionReceipt({
+      hash: hashMint,
    })
+   const stateMint: TransactionStatus =
+      statusMint == 'idle'
+         ? 'IDLE'
+         : statusMint == 'pending'
+         ? 'PREPARED'
+         : resultMint
+         ? 'CONFIRMED'
+         : 'SENT'
 
+   // EQUIP
    const {
-      write: equip,
-      data: equipData,
-      isLoading: sentTransactionEquip,
-   } = useContractWrite(equipConfig)
-
-   const { config: unequipConfig } = usePrepareContractWrite({
-      chainId: currentChainID(),
-      address: deploys['Trait(1155)'] as Address,
-      abi: tempEquipABI,
-      functionName: 'ext_removeTokenId',
-      args: [npc.id, BigInt(trait.id)], //TBAaddress , tokenID
-      enabled: isEquipped,
+      writeContract: writeEquip,
+      status: statusEquip,
+      data: hashEquip,
+   } = useWriteContract()
+   const { data: resultEquip } = useWaitForTransactionReceipt({
+      hash: hashEquip,
    })
+   const stateEquip: TransactionStatus =
+      statusEquip == 'idle'
+         ? 'IDLE'
+         : statusEquip == 'pending'
+         ? 'PREPARED'
+         : resultEquip
+         ? 'CONFIRMED'
+         : 'SENT'
+
+   // UNEQUIP
    const {
-      write: unequip,
-      data: unequipData,
-      isLoading: sentTransactionUnequip,
-   } = useContractWrite(unequipConfig)
-
-   const equipWait = useWaitForTransaction({
-      hash: equipData?.hash,
-      onSuccess: () => {
-         console.log('equipped! refetching..')
-         refetch?.()
-      },
+      writeContract: writeUnequip,
+      status: statusUnequip,
+      data: hashUnequip,
+   } = useWriteContract()
+   const { data: resultUnequip } = useWaitForTransactionReceipt({
+      hash: hashUnequip,
    })
 
-   const unequipWait = useWaitForTransaction({
-      hash: unequipData?.hash,
-      onSuccess: () => {
-         console.log('unequipped! refetching..')
-         refetch?.()
-      },
-   })
+   const stateUnequip: TransactionStatus =
+      statusUnequip == 'idle'
+         ? 'IDLE'
+         : statusUnequip == 'pending'
+         ? 'PREPARED'
+         : resultUnequip
+         ? 'CONFIRMED'
+         : 'SENT'
 
-   const mintWait = useWaitForTransaction({
-      hash: mintData?.hash,
-      onSuccess: () => {
-         console.log('minted! refetching..')
-         refetch?.()
-      },
+   // IF SOMETHING IS CONFIRMED, REFRESH
+
+   if (
+      stateMint == 'CONFIRMED' ||
+      stateEquip == 'CONFIRMED' ||
+      stateUnequip == 'CONFIRMED'
+   ) {
+      console.log('confirmed')
+      refetch?.()
+   }
+
+   const attempt = useSimulateContract({
+      chainId: currentChainID(),
+      address: deploys.freeMintController as Address,
+      abi: freeMintControllerABI,
+      functionName: 'mint1155To',
+      args: [deploys['Trait(1155)'] as Address, npc.id, BigInt(trait.id)], //collection, owner, tokenid
+      value: parseEther('0.001'),
    })
 
    return (
@@ -112,7 +122,15 @@ export default function TraitCard({
          <div className='flex flex-row space-x-2'>
             <button
                onClick={() => {
-                  mint?.()
+                  console.log('here')
+                  writeMint({
+                     chainId: currentChainID(),
+                     address: deploys.freeMintController as Address,
+                     abi: freeMintControllerABI,
+                     functionName: 'mint1155To',
+                     args: [deploys['Trait(1155)'] as Address, npc.id, BigInt(trait.id)], //collection, owner, tokenid
+                     value: parseEther('0.001'),
+                  })
                }}
                className='px-2 py-1 h-fit mr-2 border rounded bg-white hover:bg-gray-100'
             >
@@ -122,7 +140,13 @@ export default function TraitCard({
                <button
                   className='px-2 py-1 h-fit border bg-white hover:bg-gray-50'
                   onClick={() => {
-                     equip?.()
+                     writeEquip({
+                        chainId: currentChainID(),
+                        address: deploys['Trait(1155)'] as Address,
+                        abi: tempEquipABI,
+                        functionName: 'ext_addTokenId',
+                        args: [npc.id, BigInt(trait.id), 0n], //TBAaddress , tokenID, position
+                     })
                   }}
                >
                   Equip
@@ -132,7 +156,13 @@ export default function TraitCard({
                <button
                   className='px-2 py-1 h-fit border bg-white hover:bg-gray-50'
                   onClick={() => {
-                     unequip?.()
+                     writeUnequip({
+                        chainId: currentChainID(),
+                        address: deploys['Trait(1155)'] as Address,
+                        abi: tempEquipABI,
+                        functionName: 'ext_removeTokenId',
+                        args: [npc.id, BigInt(trait.id)], //TBAaddress , tokenID
+                     })
                   }}
                >
                   Unequip
@@ -141,7 +171,7 @@ export default function TraitCard({
          </div>
 
          <div>
-            {(sentTransaction || sentTransactionEquip || sentTransactionUnequip) && (
+            {(stateEquip == 'SENT' || stateUnequip == 'SENT' || stateMint == 'SENT') && (
                <div>Loading..</div>
             )}
          </div>

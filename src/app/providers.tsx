@@ -14,10 +14,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/c
 import { isTestNet } from '@/utils/chainFuncs'
 
 const client = new ApolloClient({
-   uri:
-      process.env.NEXT_PUBLIC_LOCAL
-         ? 'http://localhost:42069'
-         : process.env.NEXT_PUBLIC_GRAPHQL_API_SEPOLIA,
+   uri: process.env.NEXT_PUBLIC_LOCAL
+      ? 'http://localhost:42069'
+      : process.env.NEXT_PUBLIC_GRAPHQL_API_SEPOLIA,
    cache: new InMemoryCache(),
 })
 
@@ -26,8 +25,12 @@ const config = getDefaultConfig({
    projectId: '02262c474a049993f0929419826f7bfb',
    chains: [isTestNet() ? sepolia : base],
    transports: {
-      [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_BASE}`),
-      [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_SEPOLIA}`),
+      [base.id]: http(
+         `https://base-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_BASE}`
+      ),
+      [sepolia.id]: http(
+         `https://eth-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_SEPOLIA}`
+      ),
    },
    ssr: true,
 })

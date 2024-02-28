@@ -26,23 +26,19 @@ export default function DeployNPCButton({
       status == 'idle'
          ? 'IDLE'
          : status == 'pending'
-            ? 'PREPARED'
-            : result
-               ? 'CONFIRMED'
-               : 'SENT'
+         ? 'PREPARED'
+         : result
+         ? 'CONFIRMED'
+         : 'SENT'
 
-   useEffect(() => {
-      if (txnState == 'CONFIRMED') {
-         refetch()
-      }
-   }, [result, txnState, refetch])
-
-
+   if (txnState == 'CONFIRMED') {
+      refetch()
+   }
 
    if (txnState == 'CONFIRMED' && transactionHash) {
       return <div>NPC Turned on! {transactionHash}</div>
    } else if (txnState == 'SENT') {
-      return <div>{`Turning on...`}</div>
+      return <div>{`Turning on... The page will refresh when your NPC is ready.`}</div>
    } else {
       return (
          <div>
