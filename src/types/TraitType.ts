@@ -5,6 +5,7 @@ export type Trait = {
    name: string
    rleBytes: string
    svg: string
+   type: "body" | "glasses" | "accessory" | "head" | "bg"
 }
 
 export type OwnedTrait = {

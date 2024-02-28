@@ -3,12 +3,13 @@ import { gql, useQuery } from '@apollo/client'
 
 export default function useGetAllTraits() {
    const query = gql`
-      query NPCQuery {
+      query TraitQuery {
          traits(first: 200) {
             id
             name
             rleBytes
             svg
+            type
          }
       }
    `
