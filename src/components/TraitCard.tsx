@@ -8,6 +8,7 @@ import { Trait } from '@/types/TraitType'
 import { TransactionStatus } from '@/types/TransactionStatusType'
 import { deploys } from '@/utils/addresses'
 import { currentChainID } from '@/utils/chainFuncs'
+import { filenameToHumanReadable } from '@/utils/traitNames'
 import Image from 'next/image'
 import { Address, parseEther } from 'viem'
 import {
@@ -108,7 +109,7 @@ export default function TraitCard({
    return (
       <div className='m-1 flex flex-col items-center border rounded p-2 w-56'>
          <div>
-            #{trait.id} - {trait.name}
+            {filenameToHumanReadable.get(trait.name)}
          </div>
          <Image
             className='bg-white fill-white'
